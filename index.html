@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sapphire Minecarft Launcher</title>
+<meta tag="minecraft no 1 fastest client ">
+<link rel="icon" type="image/png" href="https://i.ibb.co/cSJdk808/icon.png">
+<link rel="canonical" href="http://sapphireclient.42web.io">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#04050b; --surface:#0b0e1a;
+  --fg:#eef1f8; --fg-soft:#a3abc2; --fg-muted:#7f88a3;
+  --line:rgba(140,165,255,.08);
+  --blue:#4f8cff;
+  --font:"Sora",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --header-h:78px; --gut:56px; --container:1240px;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --spring:cubic-bezier(.34,1.56,.64,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h) + 24px)}
+body{
+  min-height:100vh;display:flex;flex-direction:column;
+  background:var(--bg);color:var(--fg);
+  font:450 16px/1.6 var(--font);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%;height:auto}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+.container{width:calc(100% - 2*var(--gut));max-width:var(--container);margin-inline:auto}
+.section-space{padding-top:126px}
+h1,h2,h3{font-family:var(--font)}
+h2{font-size:clamp(32px,3.6vw,47px);font-weight:600;letter-spacing:-.04em;line-height:1.2}
+h2 span{color:#7d87a6}
+.heading p{margin-top:17px;color:var(--fg-soft)}
+.centered{text-align:center}
+.centered p{margin-inline:auto;max-width:560px}
+
+/* BACKGROUND */
+.ambient{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none}
+.ambient::before{
+  content:"";position:absolute;inset:-15%;
+  background:radial-gradient(at 76% 15%,rgba(60,110,255,.22) 0%,rgba(110,80,230,.06) 34%,transparent 58%);
+}
+.ambient::after{
+  content:"";position:absolute;inset:-15%;
+  background:radial-gradient(at 5% 80%,rgba(40,140,255,.14) 0%,transparent 45%),
+             radial-gradient(at 95% 92%,rgba(130,90,255,.08) 0%,transparent 40%);
+}
+
+/* BUTTONS */
+.btn{
+  position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  min-height:54px;padding:0 25px;border-radius:9px;
+  font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;
+  transition:transform .3s var(--ease),background .2s,border-color .2s,box-shadow .3s;
+}
+.btn:hover{transform:translateY(-3px)}
+.btn:active{transform:scale(.97)}
+.btn svg{transition:transform .3s var(--ease)}
+.btn:hover svg.end{transform:translate(2px,-2px)}
+.btn-primary{
+  background:linear-gradient(135deg,#3a78ff,#5b6cff);
+  border:1px solid rgba(150,180,255,.4);color:#fff;
+  box-shadow:0 0 18px rgba(79,140,255,.25),0 6px 24px rgba(0,0,0,.35);
+}
+.btn-primary:hover{
+  background:linear-gradient(135deg,#5289ff,#7280ff);
+  box-shadow:0 0 28px rgba(79,140,255,.45),0 6px 24px rgba(0,0,0,.35);
+}
+.btn-secondary{color:#e1e5de;background:rgba(255,255,255,.016);border:1px solid rgba(255,255,255,.125)}
+.btn-secondary:hover{background:rgba(255,255,255,.043);border-color:rgba(255,255,255,.21)}
+.btn-sm{min-height:39px;padding:0 16px;border-radius:7px;font-size:13px}
+
+/* HEADER */
+.header{
+  position:sticky;top:0;z-index:100;border-bottom:1px solid var(--line);
+  background:rgba(4,5,11,.6);backdrop-filter:blur(18px) saturate(140%);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
+}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:24px;height:var(--header-h)}
+.brand{display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.brand img{
+  width:38px;height:38px;object-fit:contain;
+  filter:invert(1) drop-shadow(0 0 6px rgba(110,168,255,.9));
+  mix-blend-mode:screen;
+}
+.brand>span{font-size:27px;font-weight:650;letter-spacing:-1.3px;line-height:1}
+.brand-light{color:#8fb4ff;font-weight:350}
+.nav-links,.nav-actions{display:flex;align-items:center;gap:32px}
+.nav-links a{position:relative;color:#b2b8b0;font-size:14px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--fg)}
+.nav-actions{gap:18px}
+
+/* HERO */
+.hero{display:grid;grid-template-columns:1fr 1.1fr;align-items:center;gap:20px;min-height:600px;padding:40px 0 42px}
+.hero h1{font-size:clamp(44px,5.5vw,74px);font-weight:650;letter-spacing:-.05em;line-height:1.08}
+.hero h1 span{
+  display:block;
+  background:linear-gradient(180deg,#fff,#c9d3ee);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero .rotate{display:grid;overflow:hidden;line-height:1.16;position:relative;min-height:1.2em}
+.hero .rotate .word{
+  grid-area:1/1;justify-self:start;
+  background:linear-gradient(90deg,#4f8cff,#9fc2ff 50%,#a58bff);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:cycle 8s var(--ease) infinite;white-space:nowrap;
+}
+.hero .rotate .word:nth-child(2){animation-delay:-4s}
+@keyframes cycle{
+  0%,45%{opacity:1;transform:translateY(0)}
+  50%,95%{opacity:0;transform:translateY(-.35em)}
+  100%{opacity:1;transform:translateY(0)}
+}
+.hero .desc{max-width:450px;margin-top:26px;color:var(--fg-soft);font-size:17px;line-height:1.75}
+.hero .actions{display:flex;flex-wrap:wrap;align-items:center;gap:13px;margin-top:30px}
+.hero-visual{position:relative;display:flex;align-items:center;justify-content:center;perspective:1200px}
+.hero-frame{
+  position:relative;width:100%;padding:7px;border-radius:15px;
+  border:1px solid rgba(111,188,251,.18);
+  background:linear-gradient(135deg,rgba(96,186,248,.19),#102430 48%,rgba(51,138,185,.22));
+  box-shadow:0 0 65px rgba(79,183,245,.13),0 35px 70px rgba(0,0,0,.6);
+  transform:rotateY(-11deg) rotate(2deg);
+  transition:transform .6s var(--ease),box-shadow .5s;
+  cursor:pointer;
+}
+.hero-frame img{width:100%;border-radius:9px;display:block}
+
+/* FACTS */
+.facts{display:grid;grid-template-columns:1.55fr 1fr 1fr 1.1fr;gap:28px;padding:29px 0;border-block:1px solid var(--line)}
+.facts>div{display:flex;flex-direction:column;justify-content:center;gap:5px;padding-left:39px;border-left:1px solid var(--line)}
+.facts>div:first-child{padding-left:0;border:0}
+.facts strong{font-size:29px;font-weight:550;letter-spacing:-1px;line-height:1.2;color:var(--fg)}
+.facts strong span{color:var(--blue);font-size:24px}
+.facts>div>span{color:#57749b;font-size:13px}
+.facts .platform>span{color:#d7dcd3;font-size:17px}
+.platform div{display:flex;align-items:center;gap:11px;margin-top:7px;color:#59769e}
+.platform div span{font-size:12px}
+
+/* TABS */
+.tour{margin-top:34px}
+.tabs{display:flex;justify-content:center;overflow:auto}
+.tablist{display:inline-flex;gap:3px;height:48px;padding:5px;border-radius:10px;border:1px solid rgba(92,179,239,.125);background:#0c1310}
+.tablist [role=tab]{
+  display:inline-flex;align-items:center;gap:8px;height:100%;padding:0 18px;
+  border-radius:6px;color:#57749b;font-size:13px;font-weight:500;white-space:nowrap;
+  transition:all .3s var(--ease);
+}
+.tablist [role=tab]:hover{color:var(--fg)}
+.tablist [role=tab][aria-selected=true]{
+  color:var(--blue);background:rgba(110,168,255,.08);
+  box-shadow:0 0 0 1px inset rgba(92,191,255,.14);
+}
+.panel{margin-top:23px}
+.shot-frame{
+  position:relative;padding:9px;border-radius:18px;
+  border:1px solid rgba(100,186,249,.17);
+  background:linear-gradient(145deg,rgba(88,183,244,.13),#152019 45%,rgba(44,151,202,.19));
+  box-shadow:0 0 85px rgba(77,179,239,.08),0 24px 65px rgba(0,0,0,.53);
+  overflow:hidden;
+}
+.shot-frame>img{width:100%;aspect-ratio:1200/698;object-fit:contain;border-radius:10px;background:var(--bg)}
+.caption{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:20px;padding-inline:3px;color:#58759d;font-size:13px}
+.caption strong{color:#d7dfd1;font-weight:500;margin-right:6px}
+.caption .count{color:var(--blue);white-space:nowrap;font-size:12px}
+.caption .count span{color:var(--fg-muted)}
+
+/* CARDS */
+.grid{display:grid;grid-template-columns:1fr 1.2fr;gap:19px;margin-top:36px}
+.card{
+  position:relative;overflow:hidden;padding:32px;border-radius:17px;
+  border:1px solid rgba(119,182,243,.08);background:var(--surface);
+  transition:border-color .3s var(--ease),box-shadow .3s var(--ease),transform .3s var(--ease);
+}
+.card:hover{border-color:rgba(110,150,255,.3);transform:translateY(-4px)}
+.icon{
+  display:flex;align-items:center;justify-content:center;width:44px;height:44px;
+  margin-bottom:24px;border-radius:10px;color:var(--blue);
+  background:rgba(81,179,239,.06);border:1px solid rgba(92,191,255,.17);
+}
+.card h3{font-size:22px;font-weight:500;letter-spacing:-.65px;line-height:1.3}
+.card p{max-width:360px;margin-top:12px;color:var(--fg-soft);font-size:15px;line-height:1.65}
+.perf{background:linear-gradient(135deg,#112018,#0c1210 75%)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:24px}
+.tags span{padding:6px 8px;border-radius:5px;border:1px solid rgba(110,168,255,.07);background:rgba(110,168,255,.03);color:#6994c6;font-size:11px}
+.link{display:inline-flex;align-items:center;gap:9px;margin-top:21px;color:#b9cbf7;font-size:14px;transition:gap .3s,color .2s}
+.link:hover{color:var(--blue);gap:14px}
+
+/* COMPARE */
+.compare{grid-column:1/-1;display:grid;grid-template-columns:.8fr 1.2fr;align-items:center;gap:30px 40px;background:#111714}
+.compare p{max-width:390px}
+.stats{display:grid;gap:22px;margin-top:28px}
+.metric-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;color:#c9d1c4;font-size:13px;font-weight:500}
+.delta{padding:3px 7px;border-radius:5px;border:1px solid rgba(110,168,255,.145);background:rgba(93,177,237,.063);color:#6fade7;font-size:11px}
+.row{display:grid;grid-template-columns:46px 1fr 44px;align-items:center;gap:12px;color:var(--fg-muted);font-size:12px}
+.row+.row{margin-top:7px}
+.row strong{color:#c9d1c4;font-size:14px;font-weight:600;text-align:right}
+.row.leaf{color:#c4d6ff}
+.row.leaf strong{color:var(--blue)}
+.bar{height:8px;overflow:hidden;border-radius:4px;background:rgba(255,255,255,.05)}
+.bar span{display:block;width:var(--bar);height:100%;border-radius:4px;background:#374d67}
+.leaf .bar span{background:linear-gradient(90deg,#3d6fe0,var(--blue))}
+.note{margin-top:-8px;color:var(--fg-muted);font-size:11px}
+.switch{display:inline-flex;gap:3px;margin-bottom:12px;padding:4px;border-radius:9px;border:1px solid rgba(92,179,239,.125);background:#0c1310}
+.switch button{padding:7px 14px;border-radius:6px;color:#57749b;font-size:12px;font-weight:500;transition:all .3s var(--ease)}
+.switch button:hover{color:var(--fg)}
+.switch button[aria-pressed=true]{color:var(--blue);background:rgba(110,168,255,.08);box-shadow:0 0 0 1px inset rgba(92,191,255,.14)}
+.view{position:relative;overflow:hidden;aspect-ratio:16/10;border-radius:12px;border:1px solid rgba(100,186,249,.17);background:var(--bg);user-select:none}
+.view>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;transition:opacity .3s}
+.view>.leaf-img{clip-path:inset(0 calc(100% - var(--split,50%)) 0 0)}
+.label{position:absolute;bottom:14px;z-index:1;padding:5px 9px;border-radius:6px;background:rgba(10,15,12,.78);color:#d7dfd1;font-size:12px;font-weight:500;pointer-events:none}
+.label-leaf{left:14px;border:1px solid rgba(110,168,255,.3);color:#c4d6ff}
+.label-other{right:14px;border:1px solid rgba(255,255,255,.13)}
+.handle{position:absolute;top:0;bottom:0;left:var(--split,50%);z-index:2;width:2px;background:var(--blue);transform:translateX(-50%);pointer-events:none}
+.handle svg{position:absolute;top:50%;left:50%;padding:8px;border-radius:50%;border:1px solid rgba(114,191,255,.4);background:rgba(10,18,14,.9);color:var(--blue);transform:translate(-50%,-50%)}
+.range{position:absolute;inset:0;z-index:3;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.setup{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:16px 28px;padding-top:26px;border-top:1px solid rgba(127,183,244,.07)}
+.setup dt{color:#6493c5;font-size:10px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase}
+.setup dd{margin-top:5px;color:#c9d1c4;font-size:13px;line-height:1.5}
+
+/* VOICE */
+.voice{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:76px}
+.voice h2 span{color:var(--blue)}
+.voice .desc{max-width:450px;margin-top:22px;color:var(--fg-soft);line-height:1.75}
+.eyebrow{display:block;margin-bottom:21px;color:#6493c5;font-size:11px;letter-spacing:1.8px;text-transform:uppercase}
+.console{min-width:0;padding:28px;border-radius:18px;border:1px solid rgba(108,170,227,.11);background:linear-gradient(155deg,#151e18,#0b110f 82%)}
+.console-head{display:flex;align-items:center;justify-content:space-between;gap:18px;color:#88b1ed;font-size:15px;font-weight:550}
+.console-head>span:first-child{display:inline-flex;align-items:center;gap:10px}
+.console-head svg{color:var(--blue)}
+.badge{padding:5px 9px;border-radius:6px;border:1px solid rgba(110,168,255,.1);background:rgba(110,168,255,.04);color:#6ca1d7;font-size:12px;font-weight:500}
+.signal{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:206px}
+.wave{flex:0 1 108px;display:flex;align-items:center;justify-content:space-between;height:124px}
+.wave span{display:block;flex:0 1 4px;min-width:3px;height:var(--h,40px);border-radius:4px;background:linear-gradient(180deg,#8ec8ff 0%,#4f8cff 55%,#2b5fb8 100%)}
+.wave.muted{opacity:.55}
+.wave.muted span{background:linear-gradient(180deg,#4a7fb8 0%,#356496 55%,#1e3c5f 100%)}
+.head{position:relative;flex:0 0 56px;height:56px;border-radius:12px;background:#1a221e;box-shadow:0 0 0 1px rgba(255,255,255,.06)}
+.head img{width:100%;height:100%;border-radius:inherit;image-rendering:pixelated}
+.head.speaking{box-shadow:0 0 0 2px var(--blue),0 0 22px rgba(110,168,255,.4)}
+.head.listening{filter:brightness(.62) saturate(.8)}
+.mic{position:relative;display:grid;place-items:center;flex:0 0 80px;height:80px;border-radius:50%;border:1px solid rgba(110,168,255,.22);background:radial-gradient(circle at 50% 0,rgba(110,168,255,.094),transparent 80%),#0c1922;color:#73b7f5}
+.console-foot{display:flex;align-items:center;justify-content:center;gap:9px;padding-top:20px;border-top:1px solid rgba(130,185,247,.06);color:#5c7ea9;font-size:14px}
+
+/* VERSIONS */
+.versions{max-width:920px;margin-inline:auto}
+.vlist{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;max-width:830px;margin:33px auto 0}
+.vlist>span{padding:12px 17px;border-radius:7px;border:1px solid rgba(255,255,255,.05);background:#101613;color:#6081ad;font-size:14px;cursor:pointer;transition:all .3s var(--ease)}
+.vlist>span:hover{color:var(--blue);border-color:rgba(110,168,255,.4);transform:translateY(-3px)}
+.vlist .new{color:#c4d6ff;background:rgba(110,168,255,.043);border-color:rgba(110,168,255,.19)}
+.new span{margin-left:7px;color:#5b8fbf;font-size:9px;letter-spacing:.5px}
+
+/* FAQ */
+.faq{display:grid;grid-template-columns:.85fr 1.4fr;gap:90px}
+.faq-head svg{margin-bottom:25px;color:#5778a0}
+.faq-head h2{font-size:37px}
+.faq-head .link{margin-top:24px}
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-item:last-child{border-bottom:0}
+.faq-item summary{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:25px 0;font-size:16px;font-weight:450;line-height:1.6;list-style:none;cursor:pointer}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary:hover{color:var(--blue)}
+.faq-item summary svg{width:18px;height:18px;color:var(--fg-muted);transition:transform .3s var(--ease)}
+.faq-item[open] summary svg{transform:rotate(180deg);color:var(--blue)}
+.faq-answer{padding-bottom:25px;color:#6282ae;font-size:15px;line-height:1.75}
+.faq-answer a{color:#b9cbf7;text-decoration:underline}
+
+/* CLOSING */
+.closing{position:relative;padding:136px 0 112px;text-align:center}
+.closing h2{font-size:48px;line-height:1.17}
+.closing h2 span{color:var(--blue)}
+.closing .btn{margin-top:29px}
+.closing p{margin-top:15px;color:#55739a;font-size:12px}
+
+/* FOOTER */
+.footer{padding-top:45px;border-top:1px solid var(--line)}
+.footer-top{display:flex;align-items:flex-start;justify-content:space-between;gap:40px}
+.footer-brand p{max-width:260px;margin-top:14px;color:#57759d;font-size:13px;line-height:1.6}
+.social{display:flex;gap:8px;margin-top:18px}
+.social a{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;border:1px solid var(--line);background:rgba(255,255,255,.02);color:#6e91c2;transition:all .3s var(--ease)}
+.social a:hover{color:var(--blue);border-color:rgba(110,168,255,.4)}
+.footer-links{display:flex;gap:64px}
+.footer-links>div{display:flex;flex-direction:column;gap:12px;font-size:13px}
+.footer-links strong{margin-bottom:6px;color:#7ca2d9;font-weight:500}
+.footer-links a{color:#547299;transition:color .25s}
+.footer-links a:hover{color:var(--blue)}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;gap:25px;margin-top:46px;padding:24px 0;border-top:1px solid var(--line);color:#4b688b;font-size:11px;line-height:1.6}
+.footer-bottom a{display:flex;align-items:center;gap:5px;color:#668ab9}
+
+/* DOWNLOAD MODAL */
+.dl-overlay{
+  position:fixed;inset:0;z-index:9999;
+  background:rgba(2,3,8,.72);
+  backdrop-filter:blur(14px) saturate(140%);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;opacity:0;pointer-events:none;
+  transition:opacity .3s var(--ease);
+}
+.dl-overlay.open{opacity:1;pointer-events:auto}
+.dl-modal{
+  position:relative;width:100%;max-width:480px;
+  border-radius:22px;border:1px solid rgba(110,168,255,.22);
+  background:linear-gradient(155deg,#101a2b,#0a0d18 70%);
+  box-shadow:0 0 90px rgba(79,140,255,.28),0 40px 90px rgba(0,0,0,.7);
+  padding:38px 34px 30px;text-align:center;
+  transform:translateY(30px) scale(.94);opacity:0;
+  transition:transform .4s var(--ease),opacity .3s var(--ease);
+  overflow:hidden;
+}
+.dl-overlay.open .dl-modal{transform:translateY(0) scale(1);opacity:1}
+.dl-close{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:9px;display:grid;place-items:center;color:#8fa0bf;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);transition:all .3s var(--ease);z-index:2}
+.dl-close:hover{color:#fff;background:rgba(255,80,80,.15);border-color:rgba(255,80,80,.35)}
+.dl-icon-wrap{position:relative;width:88px;height:88px;margin:0 auto 22px}
+.dl-icon-ring{position:absolute;inset:0;border-radius:50%;border:2px solid rgba(110,168,255,.25)}
+.dl-icon{position:absolute;inset:12px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#3a78ff,#5b6cff);color:#fff;box-shadow:0 0 30px rgba(79,140,255,.55)}
+.dl-title{font-size:24px;font-weight:650;letter-spacing:-.5px;color:#fff}
+.dl-title span{color:#6aa0ff}
+.dl-sub{margin-top:10px;color:#8fa0bf;font-size:14px;line-height:1.6}
+.dl-meta{display:flex;justify-content:center;gap:22px;margin-top:22px;padding:14px 18px;border-radius:12px;background:rgba(110,168,255,.04);border:1px solid rgba(110,168,255,.1)}
+.dl-meta div{display:flex;flex-direction:column;gap:2px;align-items:center}
+.dl-meta strong{color:#c4d6ff;font-size:13px;font-weight:600}
+.dl-meta span{color:#5c7ea9;font-size:10px;letter-spacing:.8px;text-transform:uppercase}
+.dl-progress-wrap{margin-top:0;height:0;overflow:hidden;transition:height .3s var(--ease),margin .3s var(--ease)}
+.dl-progress-wrap.active{height:56px;margin-top:24px}
+.dl-progress-label{display:flex;justify-content:space-between;font-size:12px;color:#8fa0bf;margin-bottom:8px}
+.dl-progress-label strong{color:#6aa0ff}
+.dl-progress{height:8px;border-radius:5px;overflow:hidden;background:rgba(255,255,255,.05);position:relative}
+.dl-progress-bar{height:100%;width:0%;border-radius:5px;background:linear-gradient(90deg,#3a78ff,#6aa0ff,#a58bff);transition:width .2s linear}
+.dl-actions{display:flex;gap:10px;margin-top:24px}
+.dl-btn{flex:1;min-height:50px;padding:0 18px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;gap:9px;font-size:14px;font-weight:600;white-space:nowrap;transition:transform .3s var(--ease),background .25s,border-color .25s;cursor:pointer;border:none}
+.dl-btn:hover{transform:translateY(-2px)}
+.dl-btn:active{transform:scale(.98)}
+.dl-btn-ghost{color:#a3abc2;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.09)}
+.dl-btn-ghost:hover{color:#fff;background:rgba(255,255,255,.06)}
+.dl-btn-primary{color:#fff;background:linear-gradient(135deg,#3a78ff,#5b6cff);border:1px solid rgba(150,180,255,.4);box-shadow:0 8px 24px rgba(79,140,255,.35);position:relative;overflow:hidden}
+.dl-btn-primary:hover{background:linear-gradient(135deg,#5289ff,#7280ff);box-shadow:0 12px 32px rgba(79,140,255,.55)}
+.dl-success{display:none;flex-direction:column;align-items:center}
+.dl-success.show{display:flex}
+.dl-success-icon{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;margin-bottom:16px;background:linear-gradient(135deg,#1ed47c,#12b866);color:#fff;box-shadow:0 0 30px rgba(30,212,124,.5)}
+.dl-success h4{font-size:20px;font-weight:600;color:#fff}
+.dl-success p{margin-top:8px;color:#8fa0bf;font-size:13px;line-height:1.6;max-width:320px}
+.dl-file{margin-top:16px;padding:10px 16px;border-radius:8px;background:rgba(30,212,124,.08);border:1px solid rgba(30,212,124,.25);color:#7ce0aa;font-size:12px;display:inline-flex;align-items:center;gap:8px;cursor:pointer}
+.dl-main{transition:opacity .3s var(--ease)}
+.dl-main.hide{display:none}
+
+/* RESPONSIVE */
+@media(max-width:1100px){:root{--gut:32px}.hero{min-height:540px}.voice{gap:38px}.faq{gap:55px}.footer-links{gap:40px}}
+@media(max-width:1023px){.nav-links{display:none}}
+@media(max-width:900px){
+  .footer-top{flex-direction:column;gap:32px}
+  .footer-links{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;width:100%}
+  .compare{grid-template-columns:1fr}
+  .compare p{max-width:100%}
+  .setup{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:767px){
+  :root{--gut:20px;--header-h:68px}
+  .nav{height:68px;gap:10px}
+  .brand>span{font-size:23px}
+  .brand img{width:29px;height:29px}
+  .section-space{padding-top:78px}
+  h2{font-size:32px;letter-spacing:-1.5px}
+  .hero{grid-template-columns:1fr;gap:0;min-height:auto;padding:44px 0 10px}
+  .hero h1{font-size:clamp(44px,12vw,64px)}
+  .facts{grid-template-columns:1fr 1fr;gap:25px 0;padding:24px 0}
+  .facts>div{padding-left:22px}
+  .facts>div:nth-child(3){padding-left:0;border:0}
+  .facts strong{font-size:26px}
+  .grid{grid-template-columns:1fr;gap:14px;margin-top:28px}
+  .card{padding:26px;border-radius:14px}
+  .setup{grid-template-columns:1fr;gap:14px 18px}
+  .voice{grid-template-columns:1fr;gap:28px}
+  .console{padding:22px}
+  .faq{grid-template-columns:1fr;gap:28px}
+  .faq-head h2{font-size:32px}
+  .closing{padding:85px 0 77px}
+  .closing h2{font-size:34px}
+  .footer-links{grid-template-columns:repeat(2,1fr);gap:28px 20px}
+  .footer-bottom{flex-wrap:wrap;gap:13px;margin-top:30px}
+}
+</style>
+</head>
+<body>
+
+<div class="ambient"></div>
+
+<!-- HEADER -->
+<header class="header">
+  <nav class="nav container">
+    <a class="brand" href="#">
+      <img src="https://1fc60595-1fa0-4cbf-94ab-fd51860a846f-v5.prototype.alloy.app/assets/attachments/logo.png" alt="Sapphire Client logo">
+      <span>Sapphire <span class="brand-light">Client</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="docs.html">Docs</a>
+      <a href="status.html">Status</a>
+    </div>
+    <div class="nav-actions">
+      <button class="btn btn-primary btn-sm dl-trigger" type="button">
+        Download
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero container">
+  <div class="hero-copy">
+    <h1>
+      <span>A free</span>
+      <span>Minecraft</span>
+      <span class="rotate"><span class="word">launcher.</span></span>
+    </h1>
+    <p class="desc">Sapphire Client delivers built-in peak performance and supports every version of Minecraft across Fabric, vanilla, and other coming soon every gameplay feature completely free.</p>
+    <div class="actions">
+      <button class="btn btn-primary dl-trigger" type="button">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/>
+        </svg>
+        Download for Windows
+      </button>
+      <a class="btn btn-secondary" href="#preview">See screenshots</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <button class="hero-frame" type="button" id="heroFrame">
+      <img src="https://i.ibb.co/CsPCnBXM/Screenshot-2026-10-12-062457.png" alt="Sapphire Client launcher home screen">
+    </button>
+  </div>
+</section>
+
+<!-- QUICK FACTS -->
+<section class="facts container">
+  <div class="platform">
+    <span>Desktop launcher</span>
+    <div>
+      <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>
+      </svg>
+      <span>Windows</span>
+    </div>
+  </div>
+  <div><strong>35<span>+</span></strong><span>Built-in mods</span></div>
+  <div><strong>14</strong><span>Minecraft versions</span></div>
+  <div><strong>Free</strong><span>Every gameplay feature</span></div>
+</section>
+
+<!-- PREVIEW -->
+<section id="preview" class="container section-space">
+  <div class="heading centered">
+    <h2>What it looks like.<br><span>Screenshots from the launcher and in game.</span></h2>
+    <p>Click a tab to switch screenshots.</p>
+  </div>
+  <div class="tour">
+    <div class="tabs">
+      <div class="tablist" role="tablist">
+        <button role="tab" aria-selected="true">The launcher</button>
+        <button role="tab" aria-selected="false" tabindex="-1">Built-in Modrinth</button>
+        <button role="tab" aria-selected="false" tabindex="-1">In game</button>
+        <button role="tab" aria-selected="false" tabindex="-1">Accounts</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="shot-frame">
+        <img class="tab-img" data-tab="0" src="https://i.ibb.co/CsPCnBXM/Screenshot-2026-10-12-062457.png" alt="Launcher">
+        <img class="tab-img" data-tab="1" src="https://i.ibb.co/MkRJsyr8/Screenshot-2026-10-12-062155.png" alt="Modrinth" style="display:none">
+        <img class="tab-img" data-tab="2" src="https://lens.usercontent.google.com/banana?agsi=CmdnbG9iYWw6OjAwMDA1NWNmZWM3MDAyNmQ6MDAwMDAwZWI6MTo5MjRhMWRhMTk4ZDU1OWE2OjAwMDA1NWNmZWM3MDAyNmQ6MDAwMDAzMzY1NjEwMzM2ODowMDA2NWRhM2M1YTc1YTlmEAIYASIKaW1hZ2UvanBlZw==" alt="In game" style="display:none">
+        <img class="tab-img" data-tab="3" src="https://i.ibb.co/SXrWN0jF/Screenshot-2026-10-12-062814.png" alt="Accounts" style="display:none">
+      </div>
+      <div class="caption">
+        <span id="captionText"><strong>Launch screen.</strong> Pick a profile and version, then launch.</span>
+        <span class="count" id="captionCount">01<span> / 04</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES + COMPARE -->
+<section id="features" class="container section-space">
+  <div class="heading">
+    <h2>The mods are already installed.<br><span>Turn on the ones you want.</span></h2>
+    <p>No mods folder to manage. The launcher sets up Fabric, Forge or NeoForge for you.</p>
+  </div>
+  <div class="grid">
+    <article class="card perf">
+      <div class="icon">
+        <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>
+        </svg>
+      </div>
+      <h3>Performance mods included.</h3>
+      <p>On Fabric, Sodium and Lithium are installed automatically, so the game runs better from the first launch.</p>
+      <div class="tags"><span>Sodium</span><span>Lithium</span><span>Entity Culling</span></div>
+    </article>
+    <article class="card">
+      <div class="icon">
+        <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/>
+          <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/>
+          <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/>
+        </svg>
+      </div>
+      <h3>Move HUD elements anywhere.</h3>
+      <p>Put the FPS counter, coordinates, armor and keystrokes where you want them with the HUD Editor.</p>
+      <a class="link" href="#preview">See screenshots →</a>
+    </article>
+
+    <!-- ===== COMPARE (SAPPHIRE vs LUNAR vs FAST) ===== -->
+    <article class="card compare">
+      <div>
+        <div class="icon">
+          <svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/>
+          </svg>
+        </div>
+        <h3>Sapphire vs Lunar vs Fast on 26.1.2 Fabric.</h3>
+        <p>Same PC, same world, same settings. Move the slider to compare.</p>
+
+        <div class="stats">
+          <div>
+            <div class="metric-head"><span>Average FPS</span><span class="delta">+68%</span></div>
+            <div class="row leaf"><span>Sapphire</span><div class="bar"><span style="--bar:100%"></span></div><strong>506</strong></div>
+            <div class="row"><span>Lunar</span><div class="bar"><span style="--bar:59.7%"></span></div><strong>451</strong></div>
+            <div class="row"><span>Fast</span><div class="bar"><span style="--bar:58.2%"></span></div><strong>440</strong></div>
+          </div>
+          <div>
+            <div class="metric-head"><span>1% low FPS</span><span class="delta">+69%</span></div>
+            <div class="row leaf"><span>Sapphire</span><div class="bar"><span style="--bar:100%"></span></div><strong>290</strong></div>
+            <div class="row"><span>Lunar</span><div class="bar"><span style="--bar:59.3%"></span></div><strong>210</strong></div>
+            <div class="row"><span>Fast</span><div class="bar"><span style="--bar:17.2%"></span></div><strong>203</strong></div>
+          </div>
+          <p class="note">Percentages compare Sapphire with the next fastest client.</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="switch" role="group">
+          <button aria-pressed="true">Lunar Client</button>
+          <button aria-pressed="false">Fast Client</button>
+        </div>
+        <div class="view" id="compareView">
+          <img class="other is-active" src="https://1fc60595-1fa0-4cbf-94ab-fd51860a846f-v5.prototype.alloy.app/images/a06fd457-6e3c-4cd0-8c65-184a27d46af0.webp" alt="Lunar Client screenshot">
+          <img class="other" src="https://1fc60595-1fa0-4cbf-94ab-fd51860a846f-v5.prototype.alloy.app/images/5b755cc0-f4cb-4a37-8ec6-bd2730b7a0dc.webp" alt="Fast Client screenshot" style="opacity:0">
+          <img class="leaf-img" src="https://lens.usercontent.google.com/banana?agsi=CmdnbG9iYWw6OjAwMDA1NWNmZWM3MDAyNmQ6MDAwMDAwZWI6MTo5MjRhMWRhMTk4ZDU1OWE2OjAwMDA1NWNmZWM3MDAyNmQ6MDAwMDAzMzY1NjEwMzM2ODowMDA2NWRhM2M1YTc1YTlmEAIYASIKaW1hZ2UvanBlZw==" alt="Sapphire Client screenshot">
+          <span class="label label-leaf">Sapphire Client</span>
+          <span class="label label-other">Lunar Client</span>
+          <span class="handle">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m9 7-5 5 5 5"/><path d="m15 7 5 5-5 5"/>
+            </svg>
+          </span>
+          <input class="range" type="range" min="0" max="100" value="50">
+        </div>
+      </div>
+
+      <dl class="setup">
+        <div><dt>World</dt><dd>Singleplayer, same position and view</dd></div>
+        <div><dt>Game</dt><dd>Minecraft 26.1.2, Fabric</dd></div>
+        <div><dt>Clients</dt><dd>Sapphire 1.11.10, Lunar 26.1.2, Fast 26.1.2</dd></div>
+        <div><dt>CPU</dt><dd>AMD Ryzen 9 8945HX</dd></div>
+        <div><dt>GPU</dt><dd>NVIDIA RTX 5060 Laptop, 616.92</dd></div>
+        <div><dt>Memory</dt><dd>32 GB DDR5-5200, 3 GB for the game</dd></div>
+        <div><dt>Display</dt><dd>2560 × 1600 fullscreen, 240 Hz</dd></div>
+        <div><dt>Video</dt><dd>Distance 12, VSync off, FPS unlimited</dd></div>
+        <div><dt>System</dt><dd>Windows 11, build 26200</dd></div>
+      </dl>
+    </article>
+  </div>
+</section>
+
+<!-- VOICE -->
+<section class="voice container section-space">
+  <div>
+    <span class="eyebrow">Voice chat</span>
+    <h2>Talk to other players<br><span>without a separate app.</span></h2>
+    <p class="desc">Sapphire Client has already added Voice Chat mod, so you can talk to other players without installing a separate mod or app.</p>
+  </div>
+  <div class="console">
+    <div class="console-head">
+      <span>Sapphire Client voice chat</span>
+      <span class="badge">New Feature</span>
+    </div>
+    <div class="signal">
+      <div class="head speaking"><img src="https://1fc60595-1fa0-4cbf-94ab-fd51860a846f-v5.prototype.alloy.app/images/88c52f65-2768-42c2-9b6f-844ecfc9809f.png" alt=""></div>
+      <div class="wave"><span style="--h:16px"></span><span style="--h:28px"></span><span style="--h:42px"></span><span style="--h:25px"></span><span style="--h:61px"></span><span style="--h:83px"></span><span style="--h:49px"></span><span style="--h:102px"></span><span style="--h:76px"></span><span style="--h:47px"></span><span style="--h:68px"></span><span style="--h:32px"></span></div>
+      <div class="mic">
+        <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/>
+        </svg>
+      </div>
+      <div class="wave muted"><span style="--h:32px"></span><span style="--h:68px"></span><span style="--h:47px"></span><span style="--h:76px"></span><span style="--h:102px"></span><span style="--h:49px"></span><span style="--h:83px"></span><span style="--h:61px"></span><span style="--h:25px"></span><span style="--h:42px"></span><span style="--h:28px"></span><span style="--h:16px"></span></div>
+      <div class="head listening"><img src="https://1fc60595-1fa0-4cbf-94ab-fd51860a846f-v5.prototype.alloy.app/images/d144a2b9-e468-4f3a-9f30-6c68d19009a5.png" alt=""></div>
+    </div>
+    <div class="console-foot"><span>Built into Sapphire Client</span></div>
+  </div>
+</section>
+
+<!-- VERSIONS -->
+<section class="versions container section-space">
+  <div class="heading centered">
+    <h2>All Minecraft versions.<br><span>Fabric and Vanilla.</span></h2>
+    <p>Each version is built and tested on its own.</p>
+  </div>
+  <div class="vlist">
+    <span>1.8.9</span><span>1.21</span><span>1.21.1</span><span>1.21.2</span><span>1.21.3</span>
+    <span>1.21.4</span><span>1.21.5</span><span>1.21.6</span><span>1.21.7</span><span>1.21.8</span>
+    <span>1.21.9</span><span>1.21.10</span><span>1.21.11</span>
+    <span>26</span><span>26.1</span><span>26.1.2</span> <span class="new">26.3<span>LATEST</span></span>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq container section-space">
+  <div class="faq-head">
+    <svg viewBox="0 0 24 24" width="27" height="27" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>
+    </svg>
+    <h2>Frequently asked<br><span>questions.</span></h2>
+    <a class="link" href="docs.html">Read the docs →</a>
+  </div>
+  <div>
+    <details class="faq-item" open>
+      <summary>Is Sapphire Client free? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></summary>
+      <div class="faq-answer">Yes. The launcher, the client and every gameplay feature are free. No paid extras, no subscriptions.</div>
+    </details>
+    <details class="faq-item">
+      <summary>Which Minecraft versions does it support? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></summary>
+      <div class="faq-answer">1.8.9, 1.21 through 1.21.11, and 26.3, on Fabric, Vanilla.</div>
+    </details>
+    <details class="faq-item">
+      <summary>Can I use it on any server? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></summary>
+      <div class="faq-answer">Sapphire has no cheats, only quality-of-life features.</div>
+    </details>
+    <details class="faq-item">
+      <summary>Should we bring Sapphire Client to mobile? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></summary>
+      <div class="faq-answer">We would love to hear your thoughts! Share your feedback <a href="https://discord.gg/dw2za9ZYr" target="_blank" rel="noopener">Click Here</a></div>
+    </details>
+    <details class="faq-item">
+      <summary>Who makes Sapphire Client? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></summary>
+      <div class="faq-answer">Sapphire client is a second project of Sapphire AI Developer — <a href="https://ai-sapphire.vercel.app/" target="_blank" rel="noopener">Sapphire AI</a></div>
+    </details>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing container">
+  <h2>Get Sapphire Client<br>for <span>free.</span></h2>
+  <button class="btn btn-primary dl-trigger" type="button">
+    <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/>
+    </svg>
+    Download
+  </button>
+  <p>Available for Windows. No account needed to download.</p>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer container">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a class="brand" href="#">
+        <img src="https://1fc60595-1fa0-4cbf-94ab-fd51860a846f-v5.prototype.alloy.app/assets/attachments/logo.png" alt="Sapphire Client logo">
+        <span>Sapphire <span class="brand-light">Client</span></span>
+      </a>
+      <p>A free Minecraft launcher and client.</p>
+      <div class="social">
+        <a href="https://discord.gg/dw2za9ZYr" aria-label="Discord">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.06.06 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-links">
+      <div><strong>Explore</strong><a href="#features">Features</a><a href="#" class="dl-trigger">Download</a></div>
+      <div><strong>Resources</strong><a href="docs.html">Documentation</a><a href="status.html">Service status</a><a href="https://discord.gg/dw2za9ZYr">Discord</a></div>
+      <div><strong>Sapphire Client</strong><a href="#">Privacy policy</a><a href="#">Terms of service</a><a href="#">Contact</a></div>
+      <div><strong>Credits</strong><a href="#">StarlightSkins</a><a href="#">Visage</a><a href="#">Modrinth</a><a href="#">CmlLib</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 ATLAS STUDIOS LLC.</span>
+    <span>Not affiliated with Mojang, Microsoft, or Minecraft.</span>
+    <a href="#">Back to top ↑</a>
+  </div>
+</footer>
+
+<!-- DOWNLOAD MODAL -->
+<div class="dl-overlay" id="dlOverlay" role="dialog" aria-modal="true">
+  <div class="dl-modal">
+    <button class="dl-close" id="dlClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+      </svg>
+    </button>
+
+    <div class="dl-main" id="dlMain">
+      <div class="dl-icon-wrap">
+        <div class="dl-icon-ring"></div>
+        <div class="dl-icon">
+          <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/>
+          </svg>
+        </div>
+      </div>
+      <h3 class="dl-title">Download <span>Sapphire Client</span></h3>
+      <p class="dl-sub">Get the latest version for Windows. Free forever, no account needed.</p>
+      <div class="dl-meta">
+        <div><strong>v1.2.0</strong><span>Version</span></div>
+        <div><strong>~99 MB</strong><span>Size</span></div>
+        <div><strong>Windows</strong><span>Platform</span></div>
+      </div>
+      <div class="dl-progress-wrap" id="dlProgressWrap">
+        <div class="dl-progress-label"><span>Downloading…</span><strong id="dlPercent">0%</strong></div>
+        <div class="dl-progress"><div class="dl-progress-bar" id="dlProgressBar"></div></div>
+      </div>
+      <div class="dl-actions">
+        <button class="dl-btn dl-btn-ghost" id="dlCancel" type="button">Cancel</button>
+        <button class="dl-btn dl-btn-primary" id="dlConfirm" type="button">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/>
+          </svg>
+          Confirm Download
+        </button>
+      </div>
+    </div>
+
+    <div class="dl-success" id="dlSuccess">
+      <div class="dl-success-icon">
+        <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 6 9 17l-5-5"/>
+        </svg>
+      </div>
+      <h4>Download Started!</h4>
+      <p>Agar download automatically start nahi hua, to neeche file button par click karein.</p>
+      <a class="dl-file" id="dlFallback" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/>
+        </svg>
+        Sapphire-Setup-1.2.0.exe
+      </a>
+      <div class="dl-actions">
+        <button class="dl-btn dl-btn-ghost" id="dlDone" type="button">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ============ DOWNLOAD CONFIG ============ */
+/* Mediafire direct download link — no redirect */
+var MEDIAFIRE_URL = "https://download1590.mediafire.com/ispw2dmuq6ugHgO6Cw5eolFRwYs1BXPAk6k6ZD7LtTQAyAMywywKkxsSsBsXMsMe9fCQ2I6qM-KBlWxPue9W0Ix6I1UNrlLzidqUbRKBCNodTcEnt-Hs-XeLRloLT5Y5nDwyphnqkZPjFfOKmqi0z7BHa-HMcTYPQPWqIxBG6H9B5t52mQ/li1bm9qo44987tl/Sapphire-Setup-1.2.1.exe";
+
+/* ============ TABS ============ */
+var tabCaptions = [
+  "<strong>Launch screen.</strong> Pick a profile and version, then launch.",
+  "<strong>Built-in Modrinth.</strong> Browse and install mods without leaving the launcher.",
+  "<strong>In game.</strong> The HUD editor and mods running live.",
+  "<strong>Accounts.</strong> Add and switch between Minecraft accounts."
+];
+var tabs = document.querySelectorAll('.tablist [role=tab]');
+tabs.forEach(function(tab, index){
+  tab.addEventListener('click', function(){
+    tabs.forEach(function(t){ t.setAttribute('aria-selected','false'); });
+    tab.setAttribute('aria-selected','true');
+    document.querySelectorAll('.tab-img').forEach(function(img, i){
+      img.style.display = (i === index) ? 'block' : 'none';
+    });
+    var capText = document.getElementById('captionText');
+    var capCount = document.getElementById('captionCount');
+    if(capText) capText.innerHTML = tabCaptions[index];
+    if(capCount) capCount.innerHTML = String(index + 1).padStart(2,'0') + '<span> / 04</span>';
+  });
+});
+
+/* ============ COMPARE SLIDER ============ */
+var view = document.getElementById('compareView');
+if(view){
+  var range = view.querySelector('.range');
+  var handle = view.querySelector('.handle');
+  var leaf = view.querySelector('.leaf-img');
+  var set = function(v){
+    var p = v + '%';
+    view.style.setProperty('--split', p);
+    if(handle) handle.style.left = p;
+    if(leaf) leaf.style.clipPath = 'inset(0 ' + (100-v) + '% 0 0)';
+  };
+  if(range){
+    set(50);
+    range.addEventListener('input', function(e){ set(e.target.value); });
+  }
+  var otherImgs = view.querySelectorAll('.other');
+  var btns = document.querySelectorAll('.switch button');
+  btns.forEach(function(b, i){
+    b.addEventListener('click', function(){
+      btns.forEach(function(x){ x.setAttribute('aria-pressed','false'); });
+      b.setAttribute('aria-pressed','true');
+      otherImgs.forEach(function(img, j){
+        img.style.opacity = j === i ? '1' : '0';
+      });
+      var labels = view.querySelectorAll('.label-other');
+      if(labels[0]) labels[0].textContent = b.textContent;
+    });
+  });
+}
+
+/* ============ FAQ ============ */
+document.querySelectorAll('.faq-item').forEach(function(d){
+  d.addEventListener('toggle', function(){
+    if(d.open){
+      document.querySelectorAll('.faq-item').forEach(function(o){
+        if(o !== d) o.open = false;
+      });
+    }
+  });
+});
+
+/* ============ DOWNLOAD MODAL ============ */
+(function(){
+  var overlay   = document.getElementById('dlOverlay');
+  var closeBtn  = document.getElementById('dlClose');
+  var cancelBtn = document.getElementById('dlCancel');
+  var confirmBtn= document.getElementById('dlConfirm');
+  var doneBtn   = document.getElementById('dlDone');
+  var mainBox   = document.getElementById('dlMain');
+  var successBox= document.getElementById('dlSuccess');
+  var progressWrap = document.getElementById('dlProgressWrap');
+  var progressBar  = document.getElementById('dlProgressBar');
+  var percentEl    = document.getElementById('dlPercent');
+  var fallback     = document.getElementById('dlFallback');
+
+  function openModal(){
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    mainBox.classList.remove('hide');
+    successBox.classList.remove('show');
+    progressWrap.classList.remove('active');
+    progressBar.style.width = '0%';
+    percentEl.textContent = '0%';
+  }
+  function closeModal(){
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.dl-trigger').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      openModal();
+    });
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  cancelBtn.addEventListener('click', closeModal);
+  doneBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e){
+    if(e.target === overlay) closeModal();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+  });
+
+  /* ===== DIRECT DOWNLOAD — Mediafire link, NO redirect =====
+     Yeh function seedha Mediafire ke direct download URL ko hit karta hai.
+     `download` attribute lagane se browser file ko download karta hai,
+     aur cross-origin hone ke bawajood redirect nahi hota. */
+  function triggerDownload(){
+    // Set fallback link
+    if(fallback) fallback.href = MEDIAFIRE_URL;
+
+    // Method 1: Direct anchor click with download attribute
+    var a = document.createElement('a');
+    a.href = MEDIAFIRE_URL;
+    a.download = "Sapphire-Setup-1.2.0.exe";
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){
+      if(a.parentNode) a.parentNode.removeChild(a);
+    }, 1000);
+  }
+
+  confirmBtn.addEventListener('click', function(){
+    progressWrap.classList.add('active');
+    var p = 0;
+    var iv = setInterval(function(){
+      p += Math.random() * 18;
+      if(p >= 100){ p = 100; clearInterval(iv); }
+      progressBar.style.width = p + '%';
+      percentEl.textContent = Math.floor(p) + '%';
+      if(p === 100){
+        clearInterval(iv);
+        setTimeout(function(){
+          mainBox.classList.add('hide');
+          successBox.classList.add('show');
+          triggerDownload();
+        }, 250);
+      }
+    }, 150);
+  });
+})();
+</script>
+
+</body>
+</html>
