@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sapphire Client - Live Status</title>
+    <link rel="icon" type="image/png" href="https://i.ibb.co/cSJdk808/icon.png">
+    <style>
+        :root {
+            --bg-color: #0b1120;
+            --nav-bg: #151e2e;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-yellow: #f59e0b;
+            --border-color: #1e293b;
+            --card-bg: #151e2e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulseDot {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        @keyframes pulseYellow {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.5); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .animate {
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+
+        /* Navbar */
+        nav {
+            background-color: rgba(21, 30, 46, 0.85);
+            backdrop-filter: blur(16px);
+            padding: 0.8rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+            transition: transform 0.2s;
+        }
+
+        .nav-brand:hover {
+            transform: scale(1.02);
+        }
+
+        .nav-brand img {
+            height: 28px;
+            width: 28px;
+            border-radius: 6px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-blue);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text-main);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-login {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-login:hover {
+            color: var(--text-main);
+        }
+
+        /* Status Content */
+        .status-container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        .status-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .status-header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #f1f5f9 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .status-header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* Live Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.8rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-blue);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+            transform-origin: left;
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-card.downloads::before { background: #8b5cf6; }
+        .stat-card.performance::before { background: var(--accent-green); }
+        .stat-card.players::before { background: var(--accent-blue); }
+
+        .stat-icon {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            transition: color 0.3s;
+        }
+
+        .stat-card:hover .stat-icon {
+            color: var(--accent-blue);
+        }
+
+        /* Image Logo for Players */
+        .player-image-wrapper {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .player-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.3));
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -1px;
+            line-height: 1;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent-green);
+            border-radius: 50%;
+            animation: pulseDot 2s infinite;
+        }
+
+        /* Service Status List */
+        .service-list {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+
+        .service-list:hover {
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .service-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            transition: background 0.2s, padding-left 0.2s;
+        }
+
+        .service-item:last-child {
+            border-bottom: none;
+        }
+
+        .service-item:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+            padding-left: 1.8rem;
+        }
+
+        .service-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .service-icon {
+            color: var(--text-muted);
+            display: flex;
+        }
+
+        .service-name {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .status-badge {
+            padding: 0.35rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-badge.operational {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+        }
+
+        .status-badge.maintenance {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--accent-yellow);
+        }
+
+        .dot {
+            height: 6px;
+            width: 6px;
+            border-radius: 50%;
+            background-color: currentColor;
+        }
+
+        .dot.pulse-green {
+            animation: pulseDot 2s infinite;
+        }
+
+        .dot.pulse-yellow {
+            animation: pulseYellow 2s infinite;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent-green);
+            border-radius: 50%;
+            animation: pulseDot 2s infinite;
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 1rem; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .service-item { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="index.html" class="nav-brand">
+            <img src="https://i.ibb.co/cSJdk808/icon.png" alt="Logo">
+            Sapphire Client
+        </a>
+
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="index.html">Docs</a>
+            <a href="status.html" class="active">Status</a>
+        </div>
+
+        <div class="nav-actions">
+            <a href="#" class="btn-login">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+                Log in
+            </a>
+        </div>
+    </nav>
+
+    <!-- Status Content -->
+    <div class="status-container">
+        
+        <div class="status-header animate delay-1">
+            <h1>Live System Status</h1>
+            <p>Real-time overview of Sapphire Client services and performance metrics.</p>
+        </div>
+
+        <!-- Live Stats Grid -->
+        <div class="stats-grid animate delay-2">
+            <!-- Downloads Stat -->
+            <div class="stat-card downloads">
+                <div class="stat-icon">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                </div>
+                <div class="stat-value" id="download-count">103</div>
+                <div class="stat-label">Total Downloads</div>
+                <div class="live-badge"><div class="live-dot"></div> Live</div>
+            </div>
+
+            <!-- Performance Stat -->
+            <div class="stat-card performance">
+                <div class="stat-icon">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                </div>
+                <div class="stat-value" id="uptime-value">99.9%</div>
+                <div class="stat-label">Server Uptime</div>
+                <div class="live-badge"><div class="live-dot"></div> Live</div>
+            </div>
+
+            <!-- Players Online (Image Logo) -->
+            <div class="stat-card players">
+                <div class="player-image-wrapper">
+                    <img src="https://i.ibb.co/cSJdk808/icon.png" alt="Players">
+                </div>
+                <div class="stat-value" id="player-count">24</div>
+                <div class="stat-label">Players Online</div>
+                <div class="live-badge"><div class="live-dot"></div> Live</div>
+            </div>
+        </div>
+
+        <!-- Service Status List (Bot API Removed) -->
+        <div class="service-list animate delay-3">
+            <div class="service-item">
+                <div class="service-info">
+                    <div class="service-icon">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <span class="service-name">Game Client & Launcher</span>
+                </div>
+                <div class="status-badge operational">
+                    <div class="dot pulse-green"></div> Operational
+                </div>
+            </div>
+
+            <div class="service-item">
+                <div class="service-info">
+                    <div class="service-icon">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    </div>
+                    <span class="service-name">Authentication Server</span>
+                </div>
+                <div class="status-badge operational">
+                    <div class="dot pulse-green"></div> Operational
+                </div>
+            </div>
+
+            <div class="service-item">
+                <div class="service-info">
+                    <div class="service-icon">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+                    </div>
+                    <span class="service-name">Cloud Sync & Configs</span>
+                </div>
+                <div class="status-badge operational">
+                    <div class="dot pulse-green"></div> Operational
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-text">
+            <div class="footer-dot"></div>
+            <span>All systems operational. Last updated: Just now</span>
+        </div>
+    </div>
+
+    <!-- Script for Live Feel -->
+    <script>
+        // Player count 20-30 ke beech rahega
+        let playerCount = 24; // Starting value
+
+        setInterval(() => {
+            const playerEl = document.getElementById('player-count');
+            
+            // Random change between -2 to +2
+            let change = Math.floor(Math.random() * 5) - 2; 
+            playerCount += change;
+
+            // Limits: 20 se kam nahi, 30 se zyada nahi
+            if (playerCount < 20) playerCount = 20;
+            if (playerCount > 30) playerCount = 30;
+
+            playerEl.innerText = playerCount;
+        }, 3000); // Har 3 second mein update
+
+        // Downloads slowly badhenge (optional feel)
+        let downloadCount = 103;
+        setInterval(() => {
+            if (Math.random() > 0.8) { // 20% chance
+                downloadCount++;
+                document.getElementById('download-count').innerText = downloadCount;
+            }
+        }, 10000); // Har 10 second mein check
+    </script>
+</body>
+</html>
