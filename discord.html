@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Join Our Discord</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+html,body{height:100%;overflow:hidden}
+body{
+  background:#04050b;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;
+  position:relative;
+}
+
+/* ============ BACKGROUND IMAGE (Halka Blur) ============ */
+.bg{
+  position:fixed;inset:0;z-index:-2;
+  background-image:url('https://cdn.tebex.io/webstore/976016/images/976016-2b844aa25558b1ab914c87b77fa9259afbdf4101.png');
+  background-size:cover;background-position:center;
+  filter:brightness(.5) blur(.5px);
+  animation:bgZoom 30s ease-in-out infinite alternate;
+}
+@keyframes bgZoom{
+  0%{transform:scale(1)}
+  100%{transform:scale(1.08)}
+}
+
+.bg-overlay{
+  position:fixed;inset:0;z-index:-1;
+  background:radial-gradient(circle at 50% 50%, rgba(4,5,11,.3) 0%, rgba(4,5,11,.85) 100%);
+}
+
+/* ============ FLOATING PARTICLES ============ */
+.particles{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.particle{
+  position:absolute;width:4px;height:4px;border-radius:50%;
+  background:#5865F2;
+  box-shadow:0 0 10px #5865F2, 0 0 20px rgba(88,101,242,.6);
+  animation:floatUp linear infinite;
+}
+@keyframes floatUp{
+  0%{transform:translateY(100vh) scale(0);opacity:0}
+  10%{opacity:.7}
+  90%{opacity:.7}
+  100%{transform:translateY(-10vh) scale(1);opacity:0}
+}
+
+/* ============ MAIN CARD ============ */
+.card{
+  position:relative;z-index:2;
+  width:90%;max-width:480px;
+  padding:50px 40px;
+  background:rgba(15,18,30,.55);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:24px;
+  backdrop-filter:blur(20px) saturate(150%);
+  -webkit-backdrop-filter:blur(20px) saturate(150%);
+  box-shadow:0 20px 60px rgba(0,0,0,.5), 0 0 80px rgba(88,101,242,.15);
+  text-align:center;
+  animation:cardIn .8s cubic-bezier(.16,1,.3,1) both, floatCard 6s ease-in-out 1s infinite;
+}
+@keyframes cardIn{
+  from{opacity:0;transform:translateY(40px) scale(.95)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes floatCard{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+}
+
+/* ============ DISCORD LOGO ============ */
+.discord-logo{
+  width:110px;height:110px;
+  margin:0 auto 28px;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#5865F2,#7B68EE);
+  border-radius:28px;
+  box-shadow:0 15px 50px rgba(88,101,242,.5), inset 0 2px rgba(255,255,255,.25);
+  animation:logoPulse 3s ease-in-out infinite;
+  position:relative;
+}
+.discord-logo::before{
+  content:"";position:absolute;inset:-12px;border-radius:38px;
+  background:radial-gradient(circle,rgba(88,101,242,.5),transparent 70%);
+  filter:blur(20px);z-index:-1;
+  animation:glowPulse 3s ease-in-out infinite;
+}
+@keyframes logoPulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.05)}
+}
+@keyframes glowPulse{
+  0%,100%{opacity:.6;transform:scale(1)}
+  50%{opacity:1;transform:scale(1.15)}
+}
+.discord-logo svg{
+  width:70px;height:70px;
+  fill:#fff;
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,.3));
+}
+
+.card h1{
+  font-size:34px;font-weight:800;letter-spacing:-1.2px;
+  margin-bottom:12px;
+  background:linear-gradient(180deg,#fff,#a3abc2);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.card p{
+  font-size:15px;color:#a3abc2;line-height:1.65;
+  margin-bottom:32px;
+}
+
+/* ============ JOIN BUTTON (ANCHOR TAG - 100% NAYA TAB) ============ */
+.btn{
+  position:relative;width:100%;height:58px;
+  border:none;border-radius:14px;
+  font-size:16px;font-weight:700;
+  cursor:pointer;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+  text-decoration:none;
+  font-family:'Inter',sans-serif;
+}
+.btn:active{transform:scale(.97)}
+
+.btn-primary{
+  background:linear-gradient(135deg,#5865F2,#7B68EE);
+  color:#fff;
+  box-shadow:0 8px 30px rgba(88,101,242,.4), inset 0 1px rgba(255,255,255,.3);
+}
+.btn-primary:hover{
+  transform:translateY(-3px);
+  box-shadow:0 14px 45px rgba(88,101,242,.7), inset 0 1px rgba(255,255,255,.3);
+}
+.btn-primary::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.4) 50%,transparent 70%);
+  transform:translateX(-130%);
+  transition:transform .8s cubic-bezier(.16,1,.3,1);
+}
+.btn-primary:hover::after{transform:translateX(130%)}
+.btn-primary svg{
+  width:24px;height:24px;fill:#fff;
+  flex-shrink:0;
+}
+
+.footer-text{
+  margin-top:22px;font-size:12px;color:#7f88a3;
+}
+.footer-text span{color:#5865F2;font-weight:600}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:480px){
+  .card{padding:40px 25px;border-radius:20px}
+  .card h1{font-size:26px}
+  .discord-logo{width:90px;height:90px;border-radius:22px}
+  .discord-logo svg{width:56px;height:56px}
+  .btn{height:54px;font-size:15px}
+}
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="bg-overlay"></div>
+<div class="particles" id="particles"></div>
+
+<!-- ============ MAIN CARD ============ -->
+<div class="card">
+
+  <!-- Discord Logo -->
+  <div class="discord-logo">
+    <svg viewBox="0 0 127.14 96.36" xmlns="http://www.w3.org/2000/svg">
+      <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/>
+    </svg>
+  </div>
+
+  <h1>Join Our Discord</h1>
+  <p>Connect with our community, get support, and stay updated with the latest news and events.</p>
+
+  <!-- Join Button - ANCHOR TAG (Direct New Tab) -->
+  <a href="https://discord.gg/dw2za9ZYr" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+    <svg viewBox="0 0 127.14 96.36" xmlns="http://www.w3.org/2000/svg">
+      <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/>
+    </svg>
+    Join Server
+  </a>
+
+  <div class="footer-text">
+    <span>Free to join</span>
+  </div>
+</div>
+
+<script>
+/* ============ PARTICLES ============ */
+(function(){
+  const wrap = document.getElementById('particles');
+  const count = 30;
+  for(let i=0;i<count;i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random()*100 + '%';
+    p.style.animationDuration = (8 + Math.random()*10) + 's';
+    p.style.animationDelay = (-Math.random()*15) + 's';
+    const size = 2 + Math.random()*3;
+    p.style.width = p.style.height = size + 'px';
+    const hue = 220 + Math.random()*40;
+    p.style.background = `hsl(${hue},80%,65%)`;
+    p.style.boxShadow = `0 0 10px hsl(${hue},80%,65%), 0 0 20px hsla(${hue},80%,65%,.5)`;
+    wrap.appendChild(p);
+  }
+})();
+</script>
+
+</body>
+</html>
