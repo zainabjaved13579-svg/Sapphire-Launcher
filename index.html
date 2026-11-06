@@ -558,7 +558,7 @@ html[data-theme=light] .wave.muted span{background:linear-gradient(180deg,#a4b7d
 }
 @media(max-width:767px){
   .hero-visual{margin:24px 0 24px;padding-bottom:0}
-  .hero-frame{transform:none;animation:none}
+  .hero-frame{transform:none}
   .fps-meter{right:10px;bottom:-18px;width:min(258px,73%)}
   .vlist{padding:12px;gap:8px}
   .vlist>button{min-width:58px;padding:9px 10px;font-size:12px}
@@ -566,10 +566,6 @@ html[data-theme=light] .wave.muted span{background:linear-gradient(180deg,#a4b7d
   .wave{flex:1 1 36px;min-width:0}
   .head{flex-basis:42px;height:42px}
   .mic{flex-basis:56px;height:56px}
-}
-@media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-  .reveal-ready .reveal{opacity:1;transform:none}
 }
 </style>
 </head>
@@ -1108,7 +1104,6 @@ document.querySelectorAll('.faq-item').forEach(function(d){
 
 /* ============ REVEALS + FPS METER ============ */
 (function(){
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var revealItems = document.querySelectorAll('.facts > div, .heading, .tour, .card, .highlight-card, .voice > div, .vlist > button, .faq-head, .faq-item, .closing > *, .footer-top > *, .footer-bottom > *');
   var fpsMeter = document.querySelector('.fps-meter');
   var fpsNumber = document.getElementById('fpsNumber');
@@ -1121,25 +1116,32 @@ document.querySelectorAll('.faq-item').forEach(function(d){
   var fpsFrame = 0;
   var fpsTimer = 0;
 
-  function animateFps(){
+  function animateFps(restart){
+    if(restart){
+      fpsRun++;
+      window.cancelAnimationFrame(fpsFrame);
+      window.clearTimeout(fpsTimer);
+      fpsStarted = false;
+    }
     if(fpsStarted || !fpsVisible || !fpsNumber || !fpsProgress || !fpsNeedle || !fpsMeter) return;
     fpsStarted = true;
     var run = ++fpsRun;
-    var duration = reduceMotion ? 0 : 10000;
+    var displayedTarget = fpsTarget;
+    var duration = 10000;
     var start = performance.now();
 
     function tick(now){
       if(run !== fpsRun || !fpsVisible) return;
       var progress = duration ? Math.min((now - start) / duration, 1) : 1;
       var eased = 1 - Math.pow(1 - progress, 2.4);
-      var value = Math.round(fpsTarget * eased);
+      var value = Math.round(displayedTarget * eased);
       fpsNumber.textContent = value.toLocaleString('en-US');
       fpsProgress.style.strokeDashoffset = String(276.46 * (1 - value / fpsTarget));
       fpsNeedle.style.transform = 'rotate(' + (-90 + 180 * value / fpsTarget) + 'deg)';
       fpsMeter.setAttribute('aria-valuenow', String(value));
       if(progress < 1){
         fpsFrame = requestAnimationFrame(tick);
-      }else if(!reduceMotion){
+      }else{
         fpsTimer = window.setTimeout(function(){
           fpsStarted = false;
           animateFps();
@@ -1149,7 +1151,8 @@ document.querySelectorAll('.faq-item').forEach(function(d){
     fpsFrame = requestAnimationFrame(tick);
   }
 
-  if(!reduceMotion && 'IntersectionObserver' in window){
+  window.restartFpsAnimation = function(){ animateFps(true); };
+  if('IntersectionObserver' in window){
     var revealObserver = new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
         if(entry.isIntersecting){
