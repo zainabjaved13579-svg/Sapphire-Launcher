@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sapphire Client - Documentation</title>
+    <meta name="description" content="Sapphire Client setup, supported versions, and system requirements.">
+    <title>Sapphire Client — Documentation</title>
     <link rel="icon" type="image/png" href="https://i.ibb.co/cSJdk808/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #0b1120;
@@ -24,6 +28,17 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Inter', 'Segoe UI', sans-serif;
+        }
+
+        html {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        html::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
         }
 
         body {
@@ -71,7 +86,7 @@
 
         /* --- Navbar --- */
         nav {
-            background-color: rgba(21, 30, 46, 0.85);
+            background-color: var(--nav-bg);
             backdrop-filter: blur(16px);
             padding: 0.8rem 2rem;
             display: flex;
@@ -494,6 +509,65 @@
             .req-table { display: block; overflow-x: auto; }
             .nav-links { display: none; }
         }
+
+        .theme-toggle {
+            display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:36px;padding:0 11px;
+            border:1px solid var(--border-color);border-radius:8px;background:rgba(255,255,255,.04);
+            color:var(--text-main);font-size:.78rem;font-weight:600;cursor:pointer;transition:all .22s ease;
+        }
+        .theme-toggle:hover { transform:translateY(-1px);border-color:var(--accent-blue); }
+        .theme-toggle svg { width:15px;height:15px; }
+        .discord-link { color:#b5c3ff; }
+        .discord-link:hover { color:#fff; }
+        html[data-theme=light] .discord-link { color:#4269c9; }
+        html[data-theme=light] .discord-link:hover { color:#263653; }
+        body,nav,.step-card,.alert-box,.req-table,.theme-toggle {
+            transition:background-color .3s ease,color .3s ease,border-color .3s ease,box-shadow .3s ease;
+        }
+        .scroll-reveal {
+            opacity:0;transform:translateY(22px);
+            transition:opacity .68s cubic-bezier(.16,1,.3,1),transform .68s cubic-bezier(.16,1,.3,1);
+        }
+        .scroll-reveal.is-visible { opacity:1;transform:translateY(0); }
+        .section-block.scroll-reveal { animation:none; }
+        .cursor-orb{
+            position:fixed;top:0;left:0;z-index:9998;width:27px;height:27px;border:1px solid rgba(138,170,255,.65);
+            border-radius:50%;pointer-events:none;opacity:0;transform:translate(-50%,-50%);
+            transition:width .18s ease,height .18s ease,opacity .2s ease,background .2s ease;
+        }
+        .cursor-orb.visible{opacity:1}
+        .cursor-orb.hovering{width:43px;height:43px;background:rgba(116,151,255,.08)}
+        html[data-theme=light] {
+            --bg-color:#f4f6fb;--nav-bg:rgba(248,250,255,.9);--text-main:#17213a;--text-muted:#52617c;
+            --accent-blue:#4269c9;--accent-hover:#3458b5;--sidebar-hover:#e8edfa;
+            --border-color:rgba(39,58,101,.15);--card-bg:#fff;--green:#14875f;
+        }
+        html[data-theme=light] body { background:radial-gradient(ellipse at 70% 0,rgba(92,126,220,.12),transparent 40%),var(--bg-color); }
+        html[data-theme=light] .content h1 { background:linear-gradient(135deg,#17213a,#52617c);-webkit-background-clip:text;background-clip:text; }
+        html[data-theme=light] .alert-box { background:rgba(66,105,201,.06); }
+        html[data-theme=light] .req-table th { background:rgba(33,52,94,.05); }
+        html[data-theme=light] .sidebar-nav a.active { background:rgba(66,105,201,.1); }
+        html[data-theme=light] .nav-brand { color:#17213a; }
+        html[data-theme=light] .theme-toggle { background:#fff; }
+        :focus-visible { outline:2px solid var(--accent-blue);outline-offset:3px; }
+        @media(min-width:1024px) and (pointer:fine) {
+            .cursor-orb { display:block; }
+        }
+        @media(max-width:1023px) {
+            .cursor-orb { display:none; }
+        }
+        @media(max-width:768px) {
+            nav { padding:.85rem 1rem;gap:10px; }
+            .nav-brand { font-size:1rem;gap:7px; }
+            .nav-brand img { width:25px;height:25px; }
+            .nav-actions { gap:.65rem; }
+            .theme-toggle { width:36px;padding:0; }
+            .theme-toggle span { display:none; }
+        }
+        @media(prefers-reduced-motion:reduce) {
+            *,*::before,*::after { scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important; }
+            .scroll-reveal { opacity:1;transform:none; }
+        }
     </style>
 </head>
 <body>
@@ -506,16 +580,19 @@
         </a>
 
         <div class="nav-links">
-            <a href="index.html" class="active">Home</a>
-            <a href="index.html">Docs</a>
+            <a href="index.html">Home</a>
+            <a href="index.html#features">Features</a>
+            <a href="docs.html" class="active">Docs</a>
             <a href="status.html">Status</a>
+            <a href="discord.html">Discord</a>
         </div>
 
         <div class="nav-actions">
-            <a href="#" class="btn-login">
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
-                Log in
-            </a>
+            <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+                <span>Light</span>
+            </button>
+            <a href="discord.html" class="btn-login discord-link">Join Discord</a>
         </div>
     </nav>
 
@@ -546,11 +623,9 @@
             
             <!-- Introduction Section -->
             <div id="introduction" class="section-block animate delay-1">
-                <p class="content-intro">Setting up the launcher, what your PC needs, and how server owners can switch Sapphire features off on their server.</p>
-                
                 <div style="color: var(--accent-blue); font-weight: 700; font-size: 0.8rem; margin-bottom: 0.5rem; letter-spacing: 0.05em;">OVERVIEW</div>
-
                 <h1>What is Sapphire Client?</h1>
+                <p class="content-intro">Setting up the launcher, what your PC needs, and how server owners can switch Sapphire features off on their server.</p>
                 
                 <p>Sapphire Client is a free Minecraft client for Fabric, Forge and NeoForge. It ships with 35+ built-in mods, HUD elements, quality-of-life mechanics and performance mods, all configurable in game or through the launcher.</p>
 
@@ -689,6 +764,72 @@
                 }
             });
         });
+
+        (function() {
+            const root = document.documentElement;
+            const toggles = document.querySelectorAll('[data-theme-toggle]');
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const desktopPointer = window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches;
+            let theme = 'dark';
+
+            try {
+                theme = localStorage.getItem('sapphire-theme') === 'dark' ? 'dark' : 'light';
+            } catch (error) {
+                console.warn('Theme preference could not be read.', error);
+            }
+
+            function applyTheme(nextTheme, persist) {
+                theme = nextTheme === 'light' ? 'light' : 'dark';
+                root.setAttribute('data-theme', theme);
+                toggles.forEach(button => {
+                    const isLight = theme === 'light';
+                    button.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
+                    button.setAttribute('aria-pressed', String(isLight));
+                    const label = button.querySelector('span');
+                    if (label) label.textContent = isLight ? 'Dark' : 'Light';
+                });
+                if (persist) {
+                    try {
+                        localStorage.setItem('sapphire-theme', theme);
+                    } catch (error) {
+                        console.warn('Theme preference could not be saved.', error);
+                    }
+                }
+            }
+
+            applyTheme(theme, false);
+            toggles.forEach(button => button.addEventListener('click', () => applyTheme(theme === 'light' ? 'dark' : 'light', true)));
+            window.addEventListener('storage', event => {
+                if (event.key === 'sapphire-theme') applyTheme(event.newValue, false);
+            });
+
+            if (!reduceMotion && 'IntersectionObserver' in window) {
+                const sections = document.querySelectorAll('.section-block, .step-card, .alert-box');
+                const observer = new IntersectionObserver(entries => {
+                    entries.forEach(entry => entry.target.classList.toggle('is-visible', entry.isIntersecting));
+                }, { threshold: 0.1 });
+                sections.forEach(section => {
+                    section.classList.add('scroll-reveal');
+                    observer.observe(section);
+                });
+            }
+
+            if (!reduceMotion && desktopPointer) {
+                const orb = document.createElement('div');
+                orb.className = 'cursor-orb';
+                orb.setAttribute('aria-hidden', 'true');
+                document.body.appendChild(orb);
+                document.addEventListener('pointermove', event => {
+                    orb.style.left = event.clientX + 'px';
+                    orb.style.top = event.clientY + 'px';
+                    orb.classList.add('visible');
+                });
+                document.addEventListener('pointerover', event => {
+                    orb.classList.toggle('hovering', !!event.target.closest('a,button,tr'));
+                });
+                document.addEventListener('pointerleave', () => orb.classList.remove('visible'));
+            }
+        })();
     </script>
 </body>
 </html>
