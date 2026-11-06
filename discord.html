@@ -1,221 +1,835 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Join Our Discord</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
-html,body{height:100%;overflow:hidden}
-body{
-  background:#04050b;
-  display:flex;align-items:center;justify-content:center;
-  color:#fff;
-  position:relative;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sapphire Client setup, supported versions, and system requirements.">
+    <title>Sapphire Client — Documentation</title>
+    <link rel="icon" type="image/png" href="https://i.ibb.co/cSJdk808/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b1120;
+            --nav-bg: #151e2e;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-hover: #2563eb;
+            --sidebar-hover: #1e293b;
+            --border-color: #1e293b;
+            --card-bg: #151e2e;
+            --green: #10b981;
+        }
 
-/* ============ BACKGROUND IMAGE (Halka Blur) ============ */
-.bg{
-  position:fixed;inset:0;z-index:-2;
-  background-image:url('https://cdn.tebex.io/webstore/976016/images/976016-2b844aa25558b1ab914c87b77fa9259afbdf4101.png');
-  background-size:cover;background-position:center;
-  filter:brightness(.5) blur(.5px);
-  animation:bgZoom 30s ease-in-out infinite alternate;
-}
-@keyframes bgZoom{
-  0%{transform:scale(1)}
-  100%{transform:scale(1.08)}
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+        }
 
-.bg-overlay{
-  position:fixed;inset:0;z-index:-1;
-  background:radial-gradient(circle at 50% 50%, rgba(4,5,11,.3) 0%, rgba(4,5,11,.85) 100%);
-}
+        html {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
 
-/* ============ FLOATING PARTICLES ============ */
-.particles{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
-.particle{
-  position:absolute;width:4px;height:4px;border-radius:50%;
-  background:#5865F2;
-  box-shadow:0 0 10px #5865F2, 0 0 20px rgba(88,101,242,.6);
-  animation:floatUp linear infinite;
-}
-@keyframes floatUp{
-  0%{transform:translateY(100vh) scale(0);opacity:0}
-  10%{opacity:.7}
-  90%{opacity:.7}
-  100%{transform:translateY(-10vh) scale(1);opacity:0}
-}
+        html::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
 
-/* ============ MAIN CARD ============ */
-.card{
-  position:relative;z-index:2;
-  width:90%;max-width:480px;
-  padding:50px 40px;
-  background:rgba(15,18,30,.55);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:24px;
-  backdrop-filter:blur(20px) saturate(150%);
-  -webkit-backdrop-filter:blur(20px) saturate(150%);
-  box-shadow:0 20px 60px rgba(0,0,0,.5), 0 0 80px rgba(88,101,242,.15);
-  text-align:center;
-  animation:cardIn .8s cubic-bezier(.16,1,.3,1) both, floatCard 6s ease-in-out 1s infinite;
-}
-@keyframes cardIn{
-  from{opacity:0;transform:translateY(40px) scale(.95)}
-  to{opacity:1;transform:translateY(0) scale(1)}
-}
-@keyframes floatCard{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-8px)}
-}
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
 
-/* ============ DISCORD LOGO ============ */
-.discord-logo{
-  width:110px;height:110px;
-  margin:0 auto 28px;
-  display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg,#5865F2,#7B68EE);
-  border-radius:28px;
-  box-shadow:0 15px 50px rgba(88,101,242,.5), inset 0 2px rgba(255,255,255,.25);
-  animation:logoPulse 3s ease-in-out infinite;
-  position:relative;
-}
-.discord-logo::before{
-  content:"";position:absolute;inset:-12px;border-radius:38px;
-  background:radial-gradient(circle,rgba(88,101,242,.5),transparent 70%);
-  filter:blur(20px);z-index:-1;
-  animation:glowPulse 3s ease-in-out infinite;
-}
-@keyframes logoPulse{
-  0%,100%{transform:scale(1)}
-  50%{transform:scale(1.05)}
-}
-@keyframes glowPulse{
-  0%,100%{opacity:.6;transform:scale(1)}
-  50%{opacity:1;transform:scale(1.15)}
-}
-.discord-logo svg{
-  width:70px;height:70px;
-  fill:#fff;
-  filter:drop-shadow(0 4px 8px rgba(0,0,0,.3));
-}
+        /* --- Animations --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-.card h1{
-  font-size:34px;font-weight:800;letter-spacing:-1.2px;
-  margin-bottom:12px;
-  background:linear-gradient(180deg,#fff,#a3abc2);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-}
-.card p{
-  font-size:15px;color:#a3abc2;line-height:1.65;
-  margin-bottom:32px;
-}
+        @keyframes pulseRing {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
 
-/* ============ JOIN BUTTON (ANCHOR TAG - 100% NAYA TAB) ============ */
-.btn{
-  position:relative;width:100%;height:58px;
-  border:none;border-radius:14px;
-  font-size:16px;font-weight:700;
-  cursor:pointer;overflow:hidden;
-  display:flex;align-items:center;justify-content:center;gap:12px;
-  transition:transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
-  text-decoration:none;
-  font-family:'Inter',sans-serif;
-}
-.btn:active{transform:scale(.97)}
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
 
-.btn-primary{
-  background:linear-gradient(135deg,#5865F2,#7B68EE);
-  color:#fff;
-  box-shadow:0 8px 30px rgba(88,101,242,.4), inset 0 1px rgba(255,255,255,.3);
-}
-.btn-primary:hover{
-  transform:translateY(-3px);
-  box-shadow:0 14px 45px rgba(88,101,242,.7), inset 0 1px rgba(255,255,255,.3);
-}
-.btn-primary::after{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.4) 50%,transparent 70%);
-  transform:translateX(-130%);
-  transition:transform .8s cubic-bezier(.16,1,.3,1);
-}
-.btn-primary:hover::after{transform:translateX(130%)}
-.btn-primary svg{
-  width:24px;height:24px;fill:#fff;
-  flex-shrink:0;
-}
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
 
-.footer-text{
-  margin-top:22px;font-size:12px;color:#7f88a3;
-}
-.footer-text span{color:#5865F2;font-weight:600}
+        .animate {
+            animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
 
-/* ============ RESPONSIVE ============ */
-@media(max-width:480px){
-  .card{padding:40px 25px;border-radius:20px}
-  .card h1{font-size:26px}
-  .discord-logo{width:90px;height:90px;border-radius:22px}
-  .discord-logo svg{width:56px;height:56px}
-  .btn{height:54px;font-size:15px}
-}
-</style>
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+
+        /* --- Navbar --- */
+        nav {
+            background-color: var(--nav-bg);
+            backdrop-filter: blur(16px);
+            padding: 0.8rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+            transition: transform 0.2s;
+        }
+
+        .nav-brand:hover {
+            transform: scale(1.02);
+        }
+
+        .nav-brand img {
+            height: 28px;
+            width: 28px;
+            border-radius: 6px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-blue);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text-main);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-login {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-login:hover {
+            color: var(--text-main);
+        }
+
+        /* --- Layout --- */
+        .container {
+            display: flex;
+            max-width: 1300px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 3rem 2rem;
+            gap: 4rem;
+            flex: 1;
+        }
+
+        /* --- Sidebar --- */
+        .sidebar {
+            width: 240px;
+            flex-shrink: 0;
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        .sidebar-section-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: 0.08em;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .sidebar-nav a {
+            text-decoration: none;
+            color: var(--text-muted);
+            padding: 0.6rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar-nav a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: var(--accent-blue);
+            transform: scaleY(0);
+            transition: transform 0.2s;
+            transform-origin: bottom;
+        }
+
+        .sidebar-nav a:hover::before, .sidebar-nav a.active::before {
+            transform: scaleY(1);
+        }
+
+        .sidebar-nav a:hover {
+            background-color: var(--sidebar-hover);
+            color: var(--text-main);
+            padding-left: 1rem;
+        }
+
+        .sidebar-nav a.active {
+            background-color: rgba(59, 130, 246, 0.08);
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        .sidebar-nav svg {
+            width: 16px;
+            height: 16px;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .sidebar-nav a.active svg {
+            opacity: 1;
+            stroke: var(--accent-blue);
+        }
+
+        /* --- Main Content --- */
+        .content {
+            flex: 1;
+            max-width: 800px;
+        }
+
+        .section-block {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        .content h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #f1f5f9 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .content h2 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+        }
+
+        .content p {
+            line-height: 1.7;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .content-intro {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Alert Box */
+        .alert-box {
+            background-color: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            gap: 12px;
+            margin-bottom: 2rem;
+            align-items: flex-start;
+            transition: all 0.3s;
+        }
+
+        .alert-box:hover {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.4);
+            transform: translateX(4px);
+        }
+
+        .alert-icon {
+            color: var(--accent-blue);
+            display: flex;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .alert-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        
+        .alert-text strong {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* Feature List */
+        .feature-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .feature-list li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.8rem;
+            position: relative;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            transition: transform 0.2s, color 0.2s;
+        }
+
+        .feature-list li:hover {
+            transform: translateX(4px);
+            color: var(--text-main);
+        }
+
+        .feature-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 6px;
+            width: 14px;
+            height: 14px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233b82f6' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        /* --- Getting Started Steps --- */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .step-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-blue);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+            transform-origin: left;
+        }
+
+        .step-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .step-icon-wrapper {
+            width: 44px;
+            height: 44px;
+            background-color: rgba(59, 130, 246, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: var(--accent-blue);
+            transition: all 0.3s;
+        }
+
+        .step-card:hover .step-icon-wrapper {
+            animation: pulseRing 1.5s infinite;
+            background-color: rgba(59, 130, 246, 0.2);
+        }
+
+        .step-card h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .step-card p {
+            font-size: 0.85rem;
+            margin-bottom: 0;
+            color: var(--text-muted);
+        }
+
+        /* --- Requirements Table --- */
+        .req-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .req-table th, .req-table td {
+            padding: 1rem 1.2rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+
+        .req-table th {
+            background-color: rgba(255, 255, 255, 0.02);
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .req-table tr {
+            transition: background 0.2s;
+        }
+
+        .req-table tbody tr:hover {
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+
+        .req-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .req-table td {
+            color: var(--text-muted);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .tag-min { background-color: rgba(148, 163, 184, 0.1); color: #94a3b8; }
+        .tag-rec { background-color: rgba(16, 185, 129, 0.1); color: var(--green); }
+
+        @media (max-width: 768px) {
+            .container { flex-direction: column; padding: 1rem; gap: 2rem; }
+            .sidebar { width: 100%; }
+            .steps-grid { grid-template-columns: 1fr; }
+            .req-table { display: block; overflow-x: auto; }
+            .nav-links { display: none; }
+        }
+
+        .theme-toggle {
+            display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:36px;padding:0 11px;
+            border:1px solid var(--border-color);border-radius:8px;background:rgba(255,255,255,.04);
+            color:var(--text-main);font-size:.78rem;font-weight:600;cursor:pointer;transition:all .22s ease;
+        }
+        .theme-toggle:hover { transform:translateY(-1px);border-color:var(--accent-blue); }
+        .theme-toggle svg { width:15px;height:15px; }
+        .discord-link { color:#b5c3ff; }
+        .discord-link:hover { color:#fff; }
+        html[data-theme=light] .discord-link { color:#4269c9; }
+        html[data-theme=light] .discord-link:hover { color:#263653; }
+        body,nav,.step-card,.alert-box,.req-table,.theme-toggle {
+            transition:background-color .3s ease,color .3s ease,border-color .3s ease,box-shadow .3s ease;
+        }
+        .scroll-reveal {
+            opacity:0;transform:translateY(22px);
+            transition:opacity .68s cubic-bezier(.16,1,.3,1),transform .68s cubic-bezier(.16,1,.3,1);
+        }
+        .scroll-reveal.is-visible { opacity:1;transform:translateY(0); }
+        .section-block.scroll-reveal { animation:none; }
+        .cursor-orb{
+            position:fixed;top:0;left:0;z-index:9998;width:27px;height:27px;border:1px solid rgba(138,170,255,.65);
+            border-radius:50%;pointer-events:none;opacity:0;transform:translate(-50%,-50%);
+            transition:width .18s ease,height .18s ease,opacity .2s ease,background .2s ease;
+        }
+        .cursor-orb.visible{opacity:1}
+        .cursor-orb.hovering{width:43px;height:43px;background:rgba(116,151,255,.08)}
+        html[data-theme=light] {
+            --bg-color:#f4f6fb;--nav-bg:rgba(248,250,255,.9);--text-main:#17213a;--text-muted:#52617c;
+            --accent-blue:#4269c9;--accent-hover:#3458b5;--sidebar-hover:#e8edfa;
+            --border-color:rgba(39,58,101,.15);--card-bg:#fff;--green:#14875f;
+        }
+        html[data-theme=light] body { background:radial-gradient(ellipse at 70% 0,rgba(92,126,220,.12),transparent 40%),var(--bg-color); }
+        html[data-theme=light] .content h1 { background:linear-gradient(135deg,#17213a,#52617c);-webkit-background-clip:text;background-clip:text; }
+        html[data-theme=light] .alert-box { background:rgba(66,105,201,.06); }
+        html[data-theme=light] .req-table th { background:rgba(33,52,94,.05); }
+        html[data-theme=light] .sidebar-nav a.active { background:rgba(66,105,201,.1); }
+        html[data-theme=light] .nav-brand { color:#17213a; }
+        html[data-theme=light] .theme-toggle { background:#fff; }
+        :focus-visible { outline:2px solid var(--accent-blue);outline-offset:3px; }
+        @media(min-width:1024px) and (pointer:fine) {
+            .cursor-orb { display:block; }
+        }
+        @media(max-width:1023px) {
+            .cursor-orb { display:none; }
+        }
+        @media(max-width:768px) {
+            nav { padding:.85rem 1rem;gap:10px; }
+            .nav-brand { font-size:1rem;gap:7px; }
+            .nav-brand img { width:25px;height:25px; }
+            .nav-actions { gap:.65rem; }
+            .theme-toggle { width:36px;padding:0; }
+            .theme-toggle span { display:none; }
+        }
+        @media(prefers-reduced-motion:reduce) {
+            *,*::before,*::after { scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important; }
+            .scroll-reveal { opacity:1;transform:none; }
+        }
+    </style>
 </head>
 <body>
 
-<div class="bg"></div>
-<div class="bg-overlay"></div>
-<div class="particles" id="particles"></div>
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="index.html" class="nav-brand">
+            <img src="https://i.ibb.co/cSJdk808/icon.png" alt="Logo">
+            Sapphire Client
+        </a>
 
-<!-- ============ MAIN CARD ============ -->
-<div class="card">
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="index.html#features">Features</a>
+            <a href="docs.html" class="active">Docs</a>
+            <a href="status.html">Status</a>
+            <a href="discord.html">Discord</a>
+        </div>
 
-  <!-- Discord Logo -->
-  <div class="discord-logo">
-    <svg viewBox="0 0 127.14 96.36" xmlns="http://www.w3.org/2000/svg">
-      <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/>
-    </svg>
-  </div>
+        <div class="nav-actions">
+            <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+                <span>Light</span>
+            </button>
+            <a href="discord.html" class="btn-login discord-link">Join Discord</a>
+        </div>
+    </nav>
 
-  <h1>Join Our Discord</h1>
-  <p>Connect with our community, get support, and stay updated with the latest news and events.</p>
+    <!-- Main Content Area -->
+    <div class="container">
+        
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section-title">Overview</div>
+            <div class="sidebar-nav">
+                <a href="#introduction" class="active" onclick="setActive(this)">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    Introduction
+                </a>
+                <a href="#getting-started" onclick="setActive(this)">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    Getting Started
+                </a>
+                <a href="#requirements" onclick="setActive(this)">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg>
+                    Requirements
+                </a>
+            </div>
+        </aside>
 
-  <!-- Join Button - ANCHOR TAG (Direct New Tab) -->
-  <a href="https://discord.gg/dw2za9ZYr" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-    <svg viewBox="0 0 127.14 96.36" xmlns="http://www.w3.org/2000/svg">
-      <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/>
-    </svg>
-    Join Server
-  </a>
+        <!-- Main Content -->
+        <main class="content">
+            
+            <!-- Introduction Section -->
+            <div id="introduction" class="section-block animate delay-1">
+                <div style="color: var(--accent-blue); font-weight: 700; font-size: 0.8rem; margin-bottom: 0.5rem; letter-spacing: 0.05em;">OVERVIEW</div>
+                <h1>What is Sapphire Client?</h1>
+                <p class="content-intro">Setting up the launcher, what your PC needs, and how server owners can switch Sapphire features off on their server.</p>
+                
+                <p>Sapphire Client is a free Minecraft client for Fabric, Forge and NeoForge. It ships with 35+ built-in mods, HUD elements, quality-of-life mechanics and performance mods, all configurable in game or through the launcher.</p>
 
-  <div class="footer-text">
-    <span>Free to join</span>
-  </div>
-</div>
+                <div class="alert-box">
+                    <div class="alert-icon">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <div class="alert-text">
+                        Sapphire Client is currently in <strong>beta</strong>. Features are still being built and improved. Join the Discord to follow updates and report issues.
+                    </div>
+                </div>
 
-<script>
-/* ============ PARTICLES ============ */
-(function(){
-  const wrap = document.getElementById('particles');
-  const count = 30;
-  for(let i=0;i<count;i++){
-    const p = document.createElement('div');
-    p.className = 'particle';
-    p.style.left = Math.random()*100 + '%';
-    p.style.animationDuration = (8 + Math.random()*10) + 's';
-    p.style.animationDelay = (-Math.random()*15) + 's';
-    const size = 2 + Math.random()*3;
-    p.style.width = p.style.height = size + 'px';
-    const hue = 220 + Math.random()*40;
-    p.style.background = `hsl(${hue},80%,65%)`;
-    p.style.boxShadow = `0 0 10px hsl(${hue},80%,65%), 0 0 20px hsla(${hue},80%,65%,.5)`;
-    wrap.appendChild(p);
-  }
-})();
-</script>
+                <ul class="feature-list">
+                    <li>35+ built-in mods, each one can be toggled and configured</li>
+                    <li>A launcher with profile management for Windows, macOS and Linux</li>
+                    <li>Minecraft 1.8.9, 1.21 through 1.21.11 and 26.1.2 on Fabric, Forge and NeoForge</li>
+                </ul>
+            </div>
 
+            <!-- Getting Started Section -->
+            <div id="getting-started" class="section-block animate delay-2">
+                <h2>Getting Started</h2>
+                <p>Follow these simple steps to install Sapphire Client and jump into the game.</p>
+                
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-icon-wrapper">
+                            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        </div>
+                        <h3>Download Launcher</h3>
+                        <p>Click the download button at the top right and save the installer to your computer.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-icon-wrapper">
+                            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h3>Install & Login</h3>
+                        <p>Run the installer, open the launcher, and log in with your Minecraft account.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-icon-wrapper">
+                            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h3>Launch Game</h3>
+                        <p>Select your preferred version (1.8.9 or 1.21) and click Play to start the game.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Requirements Section -->
+            <div id="requirements" class="section-block animate delay-3">
+                <h2>System Requirements</h2>
+                <p>Make sure your PC meets these requirements to run Sapphire Client smoothly.</p>
+
+                <table class="req-table">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Minimum</th>
+                            <th>Recommended</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>OS</td>
+                            <td>Windows 8.1 / macOS 10.14 / Ubuntu 18.04</td>
+                            <td><span class="tag tag-rec">Windows 10/11 / macOS 12+</span></td>
+                        </tr>
+                        <tr>
+                            <td>RAM</td>
+                            <td>4 GB</td>
+                            <td><span class="tag tag-rec">8 GB or higher</span></td>
+                        </tr>
+                        <tr>
+                            <td>CPU</td>
+                            <td>Intel Core i3 or AMD Ryzen 3</td>
+                            <td><span class="tag tag-rec">Intel Core i5 / Ryzen 5</span></td>
+                        </tr>
+                        <tr>
+                            <td>GPU</td>
+                            <td>Integrated Graphics (Intel HD 4000)</td>
+                            <td><span class="tag tag-rec">Dedicated GPU (GTX 1050+)</span></td>
+                        </tr>
+                        <tr>
+                            <td>Storage</td>
+                            <td>2 GB available space</td>
+                            <td><span class="tag tag-rec">5 GB SSD space</span></td>
+                        </tr>
+                        <tr>
+                            <td>Java</td>
+                            <td>Java 8 (for 1.8.9) / Java 17 (for 1.21)</td>
+                            <td><span class="tag tag-rec">Java 17+ (Bundled in Launcher)</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        function setActive(element) {
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.classList.remove('active');
+            });
+            element.classList.add('active');
+        }
+
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section-block');
+            const navLinks = document.querySelectorAll('.sidebar-nav a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Smooth scroll for sidebar links
+        document.querySelectorAll('.sidebar-nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        (function() {
+            const root = document.documentElement;
+            const toggles = document.querySelectorAll('[data-theme-toggle]');
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const desktopPointer = window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches;
+            let theme = 'dark';
+
+            try {
+                theme = localStorage.getItem('sapphire-theme') === 'dark' ? 'dark' : 'light';
+            } catch (error) {
+                console.warn('Theme preference could not be read.', error);
+            }
+
+            function applyTheme(nextTheme, persist) {
+                theme = nextTheme === 'light' ? 'light' : 'dark';
+                root.setAttribute('data-theme', theme);
+                toggles.forEach(button => {
+                    const isLight = theme === 'light';
+                    button.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
+                    button.setAttribute('aria-pressed', String(isLight));
+                    const label = button.querySelector('span');
+                    if (label) label.textContent = isLight ? 'Dark' : 'Light';
+                });
+                if (persist) {
+                    try {
+                        localStorage.setItem('sapphire-theme', theme);
+                    } catch (error) {
+                        console.warn('Theme preference could not be saved.', error);
+                    }
+                }
+            }
+
+            applyTheme(theme, false);
+            toggles.forEach(button => button.addEventListener('click', () => applyTheme(theme === 'light' ? 'dark' : 'light', true)));
+            window.addEventListener('storage', event => {
+                if (event.key === 'sapphire-theme') applyTheme(event.newValue, false);
+            });
+
+            if (!reduceMotion && 'IntersectionObserver' in window) {
+                const sections = document.querySelectorAll('.section-block, .step-card, .alert-box');
+                const observer = new IntersectionObserver(entries => {
+                    entries.forEach(entry => entry.target.classList.toggle('is-visible', entry.isIntersecting));
+                }, { threshold: 0.1 });
+                sections.forEach(section => {
+                    section.classList.add('scroll-reveal');
+                    observer.observe(section);
+                });
+            }
+
+            if (!reduceMotion && desktopPointer) {
+                const orb = document.createElement('div');
+                orb.className = 'cursor-orb';
+                orb.setAttribute('aria-hidden', 'true');
+                document.body.appendChild(orb);
+                document.addEventListener('pointermove', event => {
+                    orb.style.left = event.clientX + 'px';
+                    orb.style.top = event.clientY + 'px';
+                    orb.classList.add('visible');
+                });
+                document.addEventListener('pointerover', event => {
+                    orb.classList.toggle('hovering', !!event.target.closest('a,button,tr'));
+                });
+                document.addEventListener('pointerleave', () => orb.classList.remove('visible'));
+            }
+        })();
+    </script>
 </body>
 </html>
