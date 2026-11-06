@@ -1,22 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sapphire Client - Live Status</title>
+    <meta name="description" content="Sapphire Client service status and service availability information.">
+    <title>Sapphire Client — Service status</title>
     <link rel="icon" type="image/png" href="https://i.ibb.co/cSJdk808/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0b1120;
-            --nav-bg: #151e2e;
-            --text-main: #f1f5f9;
-            --text-muted: #94a3b8;
-            --accent-blue: #3b82f6;
-            --accent-green: #10b981;
-            --accent-red: #ef4444;
-            --accent-yellow: #f59e0b;
-            --border-color: #1e293b;
-            --card-bg: #151e2e;
+            --bg-color: #070a12;
+            --nav-bg: rgba(8, 12, 23, .82);
+            --text-main: #eef2ff;
+            --text-muted: #96a2bd;
+            --accent-blue: #7e9cff;
+            --accent-green: #55d6a5;
+            --accent-red: #ff7587;
+            --accent-yellow: #f5b860;
+            --border-color: rgba(156, 177, 235, .13);
+            --card-bg: rgba(14, 20, 36, .86);
         }
 
         * {
@@ -26,8 +30,22 @@
             font-family: 'Inter', 'Segoe UI', sans-serif;
         }
 
+        html {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        html::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+
         body {
-            background-color: var(--bg-color);
+            background:
+                radial-gradient(ellipse at 50% -15%, rgba(72, 103, 205, .2), transparent 42%),
+                radial-gradient(ellipse at 90% 60%, rgba(43, 74, 145, .09), transparent 36%),
+                var(--bg-color);
             color: var(--text-main);
             display: flex;
             flex-direction: column;
@@ -36,10 +54,23 @@
             overflow-x: hidden;
         }
 
-        /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes ambientDrift {
+            to { transform: translate3d(2%, -2%, 0) scale(1.05); }
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            z-index: -1;
+            inset: -20%;
+            pointer-events: none;
+            background: radial-gradient(ellipse at 72% 28%, rgba(91, 119, 223, .09), transparent 42%);
+            animation: ambientDrift 18s ease-in-out infinite alternate;
         }
 
         @keyframes pulseDot {
@@ -60,19 +91,11 @@
             100% { transform: translateY(0px); }
         }
 
-        .animate {
-            animation: fadeIn 0.6s ease-out forwards;
-            opacity: 0;
-        }
-
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-        .delay-4 { animation-delay: 0.4s; }
+        .animate { opacity: 1; }
 
         /* Navbar */
         nav {
-            background-color: rgba(21, 30, 46, 0.85);
+            background-color: var(--nav-bg);
             backdrop-filter: blur(16px);
             padding: 0.8rem 2rem;
             display: flex;
@@ -91,6 +114,10 @@
             font-size: 1.15rem;
             font-weight: 600;
             text-decoration: none;
+            background: linear-gradient(90deg, #f3f5ff, #aebeff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             color: var(--text-main);
             letter-spacing: -0.5px;
             transition: transform 0.2s;
@@ -199,19 +226,19 @@
         }
 
         .stat-card {
-            background-color: var(--card-bg);
+            background: linear-gradient(145deg, rgba(18, 27, 48, .92), rgba(11, 16, 29, .92));
             border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 1.8rem;
             position: relative;
             overflow: hidden;
-            transition: transform 0.3s ease, border-color 0.3s, box-shadow 0.3s;
+            transition: transform 0.35s cubic-bezier(.16,1,.3,1), border-color 0.3s, box-shadow 0.35s;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
             border-color: rgba(59, 130, 246, 0.4);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 18px 42px rgba(0,0,0,0.28);
         }
 
         .stat-card::before {
@@ -303,15 +330,16 @@
 
         /* Service Status List */
         .service-list {
-            background-color: var(--card-bg);
+            background: linear-gradient(145deg, rgba(18, 27, 48, .9), rgba(11, 16, 29, .95));
             border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
-            transition: border-color 0.3s;
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
 
         .service-list:hover {
-            border-color: rgba(59, 130, 246, 0.3);
+            border-color: rgba(126, 156, 255, 0.32);
+            box-shadow: 0 18px 42px rgba(0,0,0,.2);
         }
 
         .service-item {
@@ -402,11 +430,155 @@
             animation: pulseDot 2s infinite;
         }
 
+        .status-container { max-width: 1000px; margin-block: 4rem; }
+        .status-header { margin-bottom: 2.4rem; }
+        .status-header h1 { font-size: clamp(2.15rem, 5vw, 3.2rem); letter-spacing: -1.7px; }
+        .status-header p { max-width: 600px; margin-inline: auto; line-height: 1.7; }
+        .eyebrow {
+            display: inline-flex; align-items: center; gap: 8px; margin-bottom: 15px;
+            color: #a9baff; font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+        }
+        .overall-status {
+            display: flex; align-items: center; justify-content: space-between; gap: 20px;
+            padding: 21px 24px; margin-bottom: 20px;
+            border: 1px solid rgba(85, 214, 165, .2); border-radius: 16px;
+            background: linear-gradient(110deg, rgba(42, 153, 113, .12), rgba(14, 20, 36, .85) 64%);
+            transition:background .3s ease,border-color .3s ease,box-shadow .3s ease;
+        }
+        .overall-copy { display: flex; align-items: center; gap: 14px; }
+        .overall-icon {
+            display: grid; place-items: center; flex: 0 0 42px; width: 42px; height: 42px;
+            border: 1px solid rgba(85, 214, 165, .22); border-radius: 12px;
+            background: rgba(85, 214, 165, .1); color: var(--accent-green);
+        }
+        .overall-copy strong { display: block; font-size: 1rem; }
+        .overall-copy p { margin-top: 3px; color: var(--text-muted); font-size: .83rem; }
+        .update-stamp { color: var(--text-muted); font-size: .77rem; text-align: right; }
+        .stat-card { min-height: 190px; }
+        .stat-label { line-height: 1.5; }
+        .live-badge { background: rgba(126, 156, 255, .09); color: #acbcff; }
+        .live-dot { background-color: #acbcff; }
+        .stat-card.downloads::before { background: #a995ff; }
+        .stat-card.performance::before { background: var(--accent-green); }
+        .stat-card.players::before { background: var(--accent-blue); }
+        .service-list { box-shadow: 0 22px 60px rgba(0,0,0,.18); }
+        .service-heading {
+            display:flex;align-items:center;justify-content:space-between;gap:12px;
+            padding:19px 24px;border-bottom:1px solid var(--border-color);
+        }
+        .service-heading h2 { font-size:1rem;font-weight:600; }
+        .service-heading span { color:var(--text-muted);font-size:.77rem; }
+        .service-item { min-height:72px; }
+        .service-name { color:#e7ebfa; }
+        .status-badge { min-width:121px;justify-content:center; }
+        .footer-text { flex-wrap:wrap;line-height:1.6; }
+        .footer-text .honest-note { flex-basis:100%;color:#74819e;font-size:.74rem; }
+        .status-container .animate { animation: fadeIn .65s cubic-bezier(.16,1,.3,1) both; }
+        .status-container .delay-1 { animation-delay:.04s; }
+        .status-container .delay-2 { animation-delay:.13s; }
+        .status-container .delay-3 { animation-delay:.22s; }
+        .status-container .delay-4 { animation-delay:.3s; }
+        .theme-toggle {
+            display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:36px;padding:0 11px;
+            border:1px solid var(--border-color);border-radius:8px;background:rgba(255,255,255,.04);
+            color:var(--text-main);font-size:.78rem;font-weight:600;cursor:pointer;transition:all .22s ease;
+        }
+        .theme-toggle:hover { transform:translateY(-1px);border-color:var(--accent-blue); }
+        .theme-toggle svg { width:15px;height:15px; }
+        .status-reveal {
+            opacity:0;transform:translateY(18px);
+            transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1);
+        }
+        .status-reveal.is-visible { opacity:1;transform:translateY(0); }
+        .service-heading > div { display:flex;flex-direction:column;gap:4px; }
+        .refresh-button {
+            min-height:36px;padding:0 13px;border:1px solid var(--border-color);border-radius:8px;
+            background:rgba(126,156,255,.1);color:var(--text-main);font-size:.78rem;font-weight:600;
+            cursor:pointer;transition:transform .2s ease,border-color .2s ease,background .2s ease;
+        }
+        .refresh-button:hover:not(:disabled) { transform:translateY(-1px);border-color:var(--accent-blue);background:rgba(126,156,255,.16); }
+        .refresh-button:disabled { cursor:wait;opacity:.65; }
+        .status-badge.checking,.status-badge.unmonitored,.status-badge.unknown {
+            background:rgba(126,156,255,.09);color:var(--text-muted);
+        }
+        .status-badge.checking::before {
+            content:"";width:7px;height:7px;border:1.5px solid currentColor;border-right-color:transparent;
+            border-radius:50%;animation:status-spin .8s linear infinite;
+        }
+        .status-badge.outage { background:rgba(255,117,135,.1);color:var(--accent-red); }
+        .status-badge.operational { background:rgba(85,214,165,.1);color:var(--accent-green); }
+        .service-icon {
+            display:grid;place-items:center;width:34px;height:34px;border-radius:10px;
+            border:1px solid var(--border-color);background:rgba(126,156,255,.07);
+            color:var(--accent-blue);font-size:.68rem;font-weight:700;letter-spacing:.04em;
+        }
+        .overall-status.status-issue { border-color:rgba(255,117,135,.28);background:linear-gradient(110deg,rgba(170,51,75,.12),rgba(14,20,36,.85) 64%); }
+        .overall-status.status-unknown { border-color:rgba(126,156,255,.25);background:linear-gradient(110deg,rgba(68,93,163,.12),rgba(14,20,36,.85) 64%); }
+        .overall-status.status-issue .overall-icon { color:var(--accent-red);border-color:rgba(255,117,135,.24);background:rgba(255,117,135,.1); }
+        .overall-status.status-unknown .overall-icon { color:var(--accent-blue);border-color:var(--border-color);background:rgba(126,156,255,.1); }
+        @keyframes status-spin { to { transform:rotate(360deg); } }
+        .status-header,.overall-status,.stat-card,.service-list,.footer-text {
+            transition:background-color .3s ease,color .3s ease,border-color .3s ease,box-shadow .3s ease;
+        }
+        .cursor-orb{
+            position:fixed;top:0;left:0;z-index:9998;width:27px;height:27px;border:1px solid rgba(138,170,255,.65);
+            border-radius:50%;pointer-events:none;opacity:0;transform:translate(-50%,-50%);
+            transition:width .18s ease,height .18s ease,opacity .2s ease,background .2s ease;
+        }
+        .cursor-orb.visible{opacity:1}
+        .cursor-orb.hovering{width:43px;height:43px;background:rgba(116,151,255,.08)}
+        html[data-theme=light] {
+            --bg-color:#f4f6fb;--nav-bg:rgba(248,250,255,.9);--text-main:#17213a;--text-muted:#52617c;
+            --accent-blue:#4269c9;--accent-green:#14875f;--accent-red:#c63d55;--accent-yellow:#a96b0d;
+            --border-color:rgba(39,58,101,.15);--card-bg:#fff;
+        }
+        html[data-theme=light] body { background:radial-gradient(ellipse at 70% 0,rgba(92,126,220,.12),transparent 40%),var(--bg-color); }
+        html[data-theme=light] .status-header h1 { background:linear-gradient(135deg,#17213a,#52617c);-webkit-background-clip:text;-webkit-text-fill-color:transparent; }
+        html[data-theme=light] .stat-card,html[data-theme=light] .service-list { background:linear-gradient(145deg,#fff,#f8faff); }
+        html[data-theme=light] .overall-status { background:linear-gradient(110deg,rgba(42,153,113,.1),rgba(255,255,255,.92) 64%); }
+        html[data-theme=light] .overall-status.status-issue { background:linear-gradient(110deg,rgba(198,61,85,.09),rgba(255,255,255,.95) 64%); }
+        html[data-theme=light] .overall-status.status-unknown { background:linear-gradient(110deg,rgba(66,105,201,.09),rgba(255,255,255,.95) 64%); }
+        html[data-theme=light] .service-item:hover { background-color:rgba(33,52,94,.04); }
+        html[data-theme=light] .service-name,html[data-theme=light] .service-heading h2 { color:#25334f; }
+        html[data-theme=light] .stat-value { color:#17213a; }
+        html[data-theme=light] .live-badge { background:rgba(66,105,201,.08);color:#4269c9; }
+        html[data-theme=light] .nav-brand { color:#17213a; }
+        html[data-theme=light] .theme-toggle { background:#fff; }
+        :focus-visible { outline:2px solid var(--accent-blue);outline-offset:3px; }
+        @media(min-width:1024px) and (pointer:fine) { .cursor-orb { display:block; } }
+        @media(max-width:1023px) { .cursor-orb { display:none; } }
+
+        @media(min-width:900px) {
+            .stats-grid { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; }
+        }
+
         @media (max-width: 768px) {
-            nav { padding: 1rem; }
+            nav { padding: 1rem 1.2rem; }
+            .status-container { margin-block: 2.5rem; padding-inline: 1.2rem; }
             .stats-grid { grid-template-columns: 1fr; }
-            .service-item { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+            .service-item { flex-direction: row; align-items: center; gap: 0.8rem; padding-inline:1rem; }
             .nav-links { display: none; }
+            .overall-status { align-items:flex-start; flex-direction:column; padding:18px; }
+            .update-stamp { text-align:left; }
+            .service-heading { padding-inline:16px; }
+            .service-heading span { text-align:right; }
+        }
+
+        @media(max-width:420px) {
+            .status-badge { min-width:0; padding:.32rem .55rem; font-size:.72rem; }
+            .service-info { gap:8px; }
+            .service-name { font-size:.84rem; }
+            nav { padding:.8rem .75rem;gap:7px; }
+            .nav-brand { font-size:.94rem;gap:6px; }
+            .nav-brand img { width:24px;height:24px; }
+            .nav-actions { gap:7px; }
+            .theme-toggle { min-height:34px;padding:0 8px; }
+            .btn-login { font-size:.8rem; }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            *,*::before,*::after { scroll-behavior:auto!important; animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; }
+            .status-reveal { opacity:1;transform:none; }
         }
     </style>
 </head>
@@ -421,14 +593,20 @@
 
         <div class="nav-links">
             <a href="index.html">Home</a>
-            <a href="index.html">Docs</a>
+            <a href="index.html#features">Features</a>
+            <a href="docs.html">Docs</a>
             <a href="status.html" class="active">Status</a>
+            <a href="discord.html">Discord</a>
         </div>
 
         <div class="nav-actions">
-            <a href="#" class="btn-login">
+            <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+                <span>Light</span>
+            </button>
+            <a href="discord.html" class="btn-login">
                 <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
-                Log in
+                Discord
             </a>
         </div>
     </nav>
@@ -437,20 +615,31 @@
     <div class="status-container">
         
         <div class="status-header animate delay-1">
-            <h1>Live System Status</h1>
-            <p>Real-time overview of Sapphire Client services and performance metrics.</p>
+            <span class="eyebrow">Sapphire Client · Service health</span>
+            <h1>Service status</h1>
+            <p>A clear overview of the services and community features around Sapphire Client.</p>
         </div>
 
+        <section class="overall-status animate delay-2" aria-label="Overall status" aria-live="polite">
+            <div class="overall-copy">
+                <div class="overall-icon" aria-hidden="true">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6"/></svg>
+                </div>
+                <div><strong id="overallTitle">Checking monitored services</strong><p id="overallDetail">Running live availability checks now.</p></div>
+            </div>
+            <div class="update-stamp" id="updateStamp">Last check: checking now</div>
+        </section>
+
         <!-- Live Stats Grid -->
-        <div class="stats-grid animate delay-2">
+        <div class="stats-grid animate delay-3">
             <!-- Downloads Stat -->
             <div class="stat-card downloads">
                 <div class="stat-icon">
                     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                 </div>
-                <div class="stat-value" id="download-count">103</div>
-                <div class="stat-label">Total Downloads</div>
-                <div class="live-badge"><div class="live-dot"></div> Live</div>
+                <div class="stat-value" id="downloadCount">24</div>
+                <div class="stat-label">Downloads</div>
+                <div class="live-badge">Current release</div>
             </div>
 
             <!-- Performance Stat -->
@@ -458,9 +647,9 @@
                 <div class="stat-icon">
                     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 </div>
-                <div class="stat-value" id="uptime-value">99.9%</div>
-                <div class="stat-label">Server Uptime</div>
-                <div class="live-badge"><div class="live-dot"></div> Live</div>
+                <div class="stat-value" id="checkedCount">0/2</div>
+                <div class="stat-label">Monitored endpoints responding</div>
+                <div class="live-badge">Website + Discord</div>
             </div>
 
             <!-- Players Online (Image Logo) -->
@@ -468,84 +657,230 @@
                 <div class="player-image-wrapper">
                     <img src="https://i.ibb.co/cSJdk808/icon.png" alt="Players">
                 </div>
-                <div class="stat-value" id="player-count">24</div>
-                <div class="stat-label">Players Online</div>
-                <div class="live-badge"><div class="live-dot"></div> Live</div>
+                <div class="stat-value" id="lastChecked">--:--</div>
+                <div class="stat-label">Last live check</div>
+                <div class="live-badge">Next check in <span id="nextRefresh">60s</span></div>
             </div>
         </div>
 
-        <!-- Service Status List (Bot API Removed) -->
-        <div class="service-list animate delay-3">
-            <div class="service-item">
+        <!-- Live service checks -->
+        <div class="service-list animate delay-4">
+            <div class="service-heading">
+                <div><h2>Service components</h2><span>Live endpoint checks</span></div>
+                <button class="refresh-button" id="refreshStatus" type="button">Check now</button>
+            </div>
+            <div class="service-item" data-check-target="website">
                 <div class="service-info">
-                    <div class="service-icon">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                    </div>
-                    <span class="service-name">Game Client & Launcher</span>
+                    <div class="service-icon" aria-hidden="true">01</div>
+                    <span class="service-name">Website delivery</span>
                 </div>
-                <div class="status-badge operational">
-                    <div class="dot pulse-green"></div> Operational
-                </div>
+                <span class="status-badge checking" data-check-state>Checking</span>
             </div>
 
-            <div class="service-item">
+            <div class="service-item" data-check-target="discord">
                 <div class="service-info">
-                    <div class="service-icon">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                    </div>
-                    <span class="service-name">Authentication Server</span>
+                    <div class="service-icon" aria-hidden="true">02</div>
+                    <span class="service-name">Discord invite service</span>
                 </div>
-                <div class="status-badge operational">
-                    <div class="dot pulse-green"></div> Operational
-                </div>
+                <span class="status-badge checking" data-check-state>Checking</span>
             </div>
 
-            <div class="service-item">
+            <div class="service-item" data-check-target="client">
                 <div class="service-info">
-                    <div class="service-icon">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
-                    </div>
-                    <span class="service-name">Cloud Sync & Configs</span>
+                    <div class="service-icon" aria-hidden="true">03</div>
+                    <span class="service-name">Launcher runtime &amp; authentication</span>
                 </div>
-                <div class="status-badge operational">
-                    <div class="dot pulse-green"></div> Operational
-                </div>
+                <span class="status-badge unmonitored" data-check-state>Not monitored</span>
             </div>
         </div>
 
         <div class="footer-text">
-            <div class="footer-dot"></div>
-            <span>All systems operational. Last updated: Just now</span>
+            <div class="footer-dot" aria-hidden="true"></div>
+            <span id="statusFootnote">Live checks are running.</span>
+            <span class="honest-note">Checks run in this browser every 60 seconds. Launcher runtime and authentication are not connected to a public health endpoint, so they are not monitored here.</span>
         </div>
     </div>
 
-    <!-- Script for Live Feel -->
     <script>
-        // Player count 20-30 ke beech rahega
-        let playerCount = 24; // Starting value
+        (function() {
+            const root = document.documentElement;
+            const toggles = document.querySelectorAll('[data-theme-toggle]');
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const desktopPointer = window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches;
+            let theme = 'light';
 
-        setInterval(() => {
-            const playerEl = document.getElementById('player-count');
-            
-            // Random change between -2 to +2
-            let change = Math.floor(Math.random() * 5) - 2; 
-            playerCount += change;
-
-            // Limits: 20 se kam nahi, 30 se zyada nahi
-            if (playerCount < 20) playerCount = 20;
-            if (playerCount > 30) playerCount = 30;
-
-            playerEl.innerText = playerCount;
-        }, 3000); // Har 3 second mein update
-
-        // Downloads slowly badhenge (optional feel)
-        let downloadCount = 103;
-        setInterval(() => {
-            if (Math.random() > 0.8) { // 20% chance
-                downloadCount++;
-                document.getElementById('download-count').innerText = downloadCount;
+            try {
+                theme = localStorage.getItem('sapphire-theme') === 'dark' ? 'dark' : 'light';
+            } catch (error) {
+                console.warn('Theme preference could not be read.', error);
             }
-        }, 10000); // Har 10 second mein check
+
+            function applyTheme(nextTheme, persist) {
+                theme = nextTheme === 'light' ? 'light' : 'dark';
+                root.setAttribute('data-theme', theme);
+                toggles.forEach(button => {
+                    const isLight = theme === 'light';
+                    button.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
+                    button.setAttribute('aria-pressed', String(isLight));
+                    const label = button.querySelector('span');
+                    if (label) label.textContent = isLight ? 'Dark' : 'Light';
+                });
+                if (persist) {
+                    try {
+                        localStorage.setItem('sapphire-theme', theme);
+                    } catch (error) {
+                        console.warn('Theme preference could not be saved.', error);
+                    }
+                }
+            }
+
+            applyTheme(theme, false);
+            toggles.forEach(button => button.addEventListener('click', () => applyTheme(theme === 'light' ? 'dark' : 'light', true)));
+            window.addEventListener('storage', event => {
+                if (event.key === 'sapphire-theme') applyTheme(event.newValue, false);
+            });
+
+            if (!reduceMotion && 'IntersectionObserver' in window) {
+                const sections = document.querySelectorAll('.status-header, .overall-status, .stats-grid, .service-list, .footer-text');
+                const observer = new IntersectionObserver(entries => {
+                    entries.forEach(entry => entry.target.classList.toggle('is-visible', entry.isIntersecting));
+                }, { threshold: 0.08 });
+                sections.forEach(section => {
+                    section.classList.add('status-reveal');
+                    observer.observe(section);
+                });
+            }
+
+            if (!reduceMotion && desktopPointer) {
+                const orb = document.createElement('div');
+                orb.className = 'cursor-orb';
+                orb.setAttribute('aria-hidden', 'true');
+                document.body.appendChild(orb);
+                document.addEventListener('pointermove', event => {
+                    orb.style.left = event.clientX + 'px';
+                    orb.style.top = event.clientY + 'px';
+                    orb.classList.add('visible');
+                });
+                document.addEventListener('pointerover', event => {
+                    orb.classList.toggle('hovering', !!event.target.closest('a,button'));
+                });
+                document.addEventListener('pointerleave', () => orb.classList.remove('visible'));
+            }
+
+            const targets = {
+                website: {
+                    url: new URL('index.html', window.location.href).href,
+                    label: 'Website delivery'
+                },
+                discord: {
+                    url: 'https://discord.com/api/v10/invites/FaAKyhnak?with_counts=true',
+                    label: 'Discord invite service'
+                }
+            };
+            const refreshButton = document.getElementById('refreshStatus');
+            const overall = document.querySelector('.overall-status');
+            const overallTitle = document.getElementById('overallTitle');
+            const overallDetail = document.getElementById('overallDetail');
+            const updateStamp = document.getElementById('updateStamp');
+            const checkedCount = document.getElementById('checkedCount');
+            const lastChecked = document.getElementById('lastChecked');
+            const nextRefresh = document.getElementById('nextRefresh');
+            const statusFootnote = document.getElementById('statusFootnote');
+            let checking = false;
+            let nextCheckAt = Date.now() + 60000;
+            let refreshTimer;
+
+            async function checkEndpoint(target) {
+                if (target.url.startsWith('file:')) {
+                    return { state: 'operational', status: 0, reason: 'Loaded locally' };
+                }
+                const controller = new AbortController();
+                const timeout = window.setTimeout(() => controller.abort(), 8000);
+                try {
+                    const response = await fetch(target.url, {
+                        cache: 'no-store',
+                        mode: 'cors',
+                        signal: controller.signal
+                    });
+                    return { state: response.ok ? 'operational' : 'outage', status: response.status };
+                } catch (error) {
+                    return { state: 'unknown', reason: error.name === 'AbortError' ? 'Timed out' : 'Network check blocked' };
+                } finally {
+                    window.clearTimeout(timeout);
+                }
+            }
+
+            function setServiceState(name, result) {
+                const row = document.querySelector('[data-check-target="' + name + '"]');
+                if (!row) return;
+                const badge = row.querySelector('[data-check-state]');
+                badge.classList.remove('checking', 'operational', 'outage', 'unknown', 'unmonitored');
+                badge.classList.add(result.state);
+                badge.textContent = result.state === 'operational'
+                    ? 'Operational'
+                    : result.state === 'outage'
+                        ? 'Unavailable'
+                        : 'Unable to verify';
+            }
+
+            function updateCountdown() {
+                const seconds = Math.max(0, Math.ceil((nextCheckAt - Date.now()) / 1000));
+                nextRefresh.textContent = seconds + 's';
+            }
+
+            async function checkServices() {
+                if (checking) return;
+                checking = true;
+                refreshButton.disabled = true;
+                refreshButton.textContent = 'Checking...';
+                Object.keys(targets).forEach(name => {
+                    const badge = document.querySelector('[data-check-target="' + name + '"] [data-check-state]');
+                    badge.className = 'status-badge checking';
+                    badge.textContent = 'Checking';
+                });
+
+                const names = Object.keys(targets);
+                const results = await Promise.all(names.map(name => checkEndpoint(targets[name])));
+                results.forEach((result, index) => setServiceState(names[index], result));
+
+                const successful = results.filter(result => result.state === 'operational').length;
+                const hasOutage = results.some(result => result.state === 'outage');
+                const hasUnknown = results.some(result => result.state === 'unknown');
+                const checkedAt = new Date();
+                const time = checkedAt.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+                checkedCount.textContent = successful + '/2';
+                lastChecked.textContent = time;
+                updateStamp.textContent = 'Last check · ' + time;
+
+                overall.classList.toggle('status-issue', hasOutage);
+                overall.classList.toggle('status-unknown', !hasOutage && hasUnknown);
+                if (hasOutage) {
+                    overallTitle.textContent = 'Availability issue detected';
+                    overallDetail.textContent = successful + ' of 2 monitored endpoints responded successfully.';
+                    statusFootnote.textContent = 'At least one monitored endpoint did not respond successfully.';
+                } else if (hasUnknown) {
+                    overallTitle.textContent = 'Unable to verify all services';
+                    overallDetail.textContent = successful + ' of 2 endpoints responded; a network check could not be completed.';
+                    statusFootnote.textContent = 'Some checks could not be completed from this browser or network.';
+                } else {
+                    overallTitle.textContent = 'All monitored endpoints operational';
+                    overallDetail.textContent = 'Both the website and Discord invite service responded successfully.';
+                    statusFootnote.textContent = 'Live checks completed successfully at ' + time + '.';
+                }
+
+                checking = false;
+                refreshButton.disabled = false;
+                refreshButton.textContent = 'Check now';
+                nextCheckAt = Date.now() + 60000;
+                window.clearTimeout(refreshTimer);
+                refreshTimer = window.setTimeout(checkServices, 60000);
+                updateCountdown();
+            }
+
+            refreshButton.addEventListener('click', checkServices);
+            window.setInterval(updateCountdown, 1000);
+            checkServices();
+        })();
     </script>
 </body>
 </html>
