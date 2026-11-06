@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sapphire Minecarft Launcher</title>
-<meta tag="minecraft no 1 fastest client ">
+<title>Sapphire Client — A faster way to play Minecraft</title>
+<meta name="description" content="A free Minecraft launcher with built-in performance mods, flexible profiles, and support for multiple Minecraft versions.">
 <link rel="icon" type="image/png" href="https://i.ibb.co/cSJdk808/icon.png">
 <link rel="canonical" href="https://sapphirelauncher.vercel.app">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,7 +22,8 @@
   --spring:cubic-bezier(.34,1.56,.64,1);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h) + 24px)}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h) + 24px);scrollbar-width:none;-ms-overflow-style:none}
+html::-webkit-scrollbar{display:none;width:0;height:0}
 body{
   min-height:100vh;display:flex;flex-direction:column;
   background:var(--bg);color:var(--fg);
@@ -122,15 +123,15 @@ h2 span{color:#7d87a6}
 .hero .actions{display:flex;flex-wrap:wrap;align-items:center;gap:13px;margin-top:30px}
 .hero-visual{position:relative;display:flex;align-items:center;justify-content:center;perspective:1200px}
 .hero-frame{
-  position:relative;width:100%;padding:7px;border-radius:15px;
+  position:relative;width:min(100%,560px);padding:7px;border-radius:15px;
   border:1px solid rgba(111,188,251,.18);
   background:linear-gradient(135deg,rgba(96,186,248,.19),#102430 48%,rgba(51,138,185,.22));
   box-shadow:0 0 65px rgba(79,183,245,.13),0 35px 70px rgba(0,0,0,.6);
-  transform:rotateY(-11deg) rotate(2deg);
+  transform:translateZ(0);
   transition:transform .6s var(--ease),box-shadow .5s;
   cursor:pointer;
 }
-.hero-frame img{width:100%;border-radius:9px;display:block}
+.hero-frame img{width:100%;border-radius:9px;display:block;image-rendering:auto;backface-visibility:hidden}
 
 /* FACTS */
 .facts{display:grid;grid-template-columns:1.55fr 1fr 1fr 1.1fr;gap:28px;padding:29px 0;border-block:1px solid var(--line)}
@@ -165,6 +166,7 @@ h2 span{color:#7d87a6}
   box-shadow:0 0 85px rgba(77,179,239,.08),0 24px 65px rgba(0,0,0,.53);
   overflow:hidden;
 }
+.shot-frame.compact{width:min(100%,660px);margin-inline:auto}
 .shot-frame>img{width:100%;aspect-ratio:1200/698;object-fit:contain;border-radius:10px;background:var(--bg)}
 .caption{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:20px;padding-inline:3px;color:#58759d;font-size:13px}
 .caption strong{color:#d7dfd1;font-weight:500;margin-right:6px}
@@ -248,11 +250,12 @@ h2 span{color:#7d87a6}
 
 /* VERSIONS */
 .versions{max-width:920px;margin-inline:auto}
-.vlist{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;max-width:830px;margin:33px auto 0}
-.vlist>span{padding:12px 17px;border-radius:7px;border:1px solid rgba(255,255,255,.05);background:#101613;color:#6081ad;font-size:14px;cursor:pointer;transition:all .3s var(--ease)}
-.vlist>span:hover{color:var(--blue);border-color:rgba(110,168,255,.4);transform:translateY(-3px)}
+.vlist{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;max-width:830px;margin:24px auto 0}
+.vlist>button{padding:12px 17px;border-radius:7px;border:1px solid rgba(255,255,255,.05);background:#101626;color:#9eaccb;font-size:14px;cursor:pointer;transition:all .3s var(--ease)}
+.vlist>button:hover,.vlist>button[aria-pressed=true]{color:var(--blue);border-color:rgba(110,168,255,.4);transform:translateY(-2px)}
 .vlist .new{color:#c4d6ff;background:rgba(110,168,255,.043);border-color:rgba(110,168,255,.19)}
 .new span{margin-left:7px;color:#5b8fbf;font-size:9px;letter-spacing:.5px}
+.vlist>button[hidden]{display:none}
 
 /* FAQ */
 .faq{display:grid;grid-template-columns:.85fr 1.4fr;gap:90px}
@@ -325,12 +328,6 @@ h2 span{color:#7d87a6}
 .dl-meta div{display:flex;flex-direction:column;gap:2px;align-items:center}
 .dl-meta strong{color:#c4d6ff;font-size:13px;font-weight:600}
 .dl-meta span{color:#5c7ea9;font-size:10px;letter-spacing:.8px;text-transform:uppercase}
-.dl-progress-wrap{margin-top:0;height:0;overflow:hidden;transition:height .3s var(--ease),margin .3s var(--ease)}
-.dl-progress-wrap.active{height:56px;margin-top:24px}
-.dl-progress-label{display:flex;justify-content:space-between;font-size:12px;color:#8fa0bf;margin-bottom:8px}
-.dl-progress-label strong{color:#6aa0ff}
-.dl-progress{height:8px;border-radius:5px;overflow:hidden;background:rgba(255,255,255,.05);position:relative}
-.dl-progress-bar{height:100%;width:0%;border-radius:5px;background:linear-gradient(90deg,#3a78ff,#6aa0ff,#a58bff);transition:width .2s linear}
 .dl-actions{display:flex;gap:10px;margin-top:24px}
 .dl-btn{flex:1;min-height:50px;padding:0 18px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;gap:9px;font-size:14px;font-weight:600;white-space:nowrap;transition:transform .3s var(--ease),background .25s,border-color .25s;cursor:pointer;border:none}
 .dl-btn:hover{transform:translateY(-2px)}
@@ -383,6 +380,197 @@ h2 span{color:#7d87a6}
   .footer-links{grid-template-columns:repeat(2,1fr);gap:28px 20px}
   .footer-bottom{flex-wrap:wrap;gap:13px;margin-top:30px}
 }
+
+/* POLISH + MOTION */
+:root{
+  --surface:#0b1020;
+  --line:rgba(151,174,230,.12);
+}
+body{
+  background:
+    radial-gradient(ellipse at 74% 8%,rgba(53,91,190,.13),transparent 36%),
+    radial-gradient(ellipse at 8% 36%,rgba(44,91,166,.08),transparent 34%),
+    var(--bg);
+}
+.ambient::before{
+  background:radial-gradient(at 76% 15%,rgba(60,110,255,.2) 0%,rgba(110,80,230,.055) 34%,transparent 58%);
+  animation:ambient-drift 18s ease-in-out infinite alternate;
+}
+.ambient::after{animation:ambient-drift 22s ease-in-out infinite alternate-reverse}
+@keyframes ambient-drift{to{transform:translate3d(1.5%,-1%,0) scale(1.04)}}
+@keyframes hero-arrive{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+.hero-copy h1,.hero-copy .desc,.hero-copy .actions,.hero-visual{animation:hero-arrive .8s var(--ease) both}
+.hero-copy .desc{animation-delay:110ms}
+.hero-copy .actions{animation-delay:190ms}
+.hero-visual{animation-delay:120ms}
+.nav-links a,.facts>div>span,.platform div,.caption,.vlist>span,
+.console,.setup dd,.footer-brand p,.footer-links a,.footer-bottom{color:#98a6c4}
+.facts .platform>span,.caption strong,.setup dd{color:#d5def3}
+.tablist,.switch{background:#0b1020}
+.perf,.compare,.console{background:linear-gradient(145deg,#101a2d,#0b1020 76%)}
+.hero-frame{
+  border-color:rgba(117,160,255,.25);
+  background:linear-gradient(135deg,rgba(96,145,248,.2),#101a2d 48%,rgba(81,106,201,.2));
+  box-shadow:0 0 65px rgba(79,125,245,.14),0 35px 70px rgba(0,0,0,.6);
+  animation:hero-glow 5s ease-in-out infinite;
+}
+@keyframes hero-glow{0%,100%{box-shadow:0 0 65px rgba(79,125,245,.14),0 35px 70px rgba(0,0,0,.6)}50%{box-shadow:0 0 82px rgba(79,125,245,.23),0 35px 70px rgba(0,0,0,.6)}}
+.hero-visual{padding-bottom:22px}
+.fps-meter{
+  position:absolute;z-index:2;right:4px;bottom:-13px;width:min(260px,67%);
+  padding:13px 17px 14px;border:1px solid rgba(148,177,255,.2);
+  border-radius:15px;background:rgba(9,14,28,.88);
+  box-shadow:0 18px 48px rgba(0,0,0,.4),inset 0 1px rgba(255,255,255,.04);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+}
+.speedo{position:relative;height:116px;overflow:hidden}
+.speedo svg{display:block;width:100%;height:100%;overflow:visible}
+.speedo-track,.speedo-progress{fill:none;stroke-width:9;stroke-linecap:round}
+.speedo-track{stroke:rgba(153,177,226,.14)}
+.speedo-progress{
+  stroke:url(#speedoGradient);stroke-dasharray:276.46;stroke-dashoffset:276.46;
+  filter:drop-shadow(0 0 5px rgba(111,157,255,.42));
+}
+.speedo-needle{
+  stroke:#f1f5ff;stroke-width:2.4;stroke-linecap:round;
+  transform-box:view-box;transform-origin:110px 104px;transform:rotate(-90deg);
+  filter:drop-shadow(0 0 4px rgba(111,157,255,.6));
+}
+.speedo-hub{fill:#f1f5ff}
+.fps-readout{
+  position:absolute;inset:auto 0 7px;display:flex;align-items:baseline;justify-content:center;gap:7px;
+}
+.fps-number{color:#f4f7ff;font-size:34px;font-weight:650;letter-spacing:-1.5px;line-height:1}
+.fps-unit{color:#87a9f4;font-size:11px;font-weight:650;letter-spacing:.8px}
+.hero-frame{transform:none!important;filter:none}
+.hero-visual{perspective:none}
+.hero-frame:hover{transform:translateY(-3px)!important}
+.voice .wave{animation:wave-drift 2.8s ease-in-out infinite alternate}
+.voice .wave.muted{animation-delay:-1.4s}
+.voice .wave span{animation:voice-wave .82s ease-in-out infinite alternate;transform-origin:center;will-change:transform}
+.voice .wave span:nth-child(3n){animation-delay:-.55s}
+.voice .wave span:nth-child(3n + 1){animation-delay:-.3s}
+.voice .wave span:nth-child(4n){animation-duration:.62s}
+.voice .wave span:nth-child(5n){animation-duration:1.04s}
+.voice .wave.is-muted span{animation:none;transform:scaleY(.12);opacity:.2}
+.voice .mic{cursor:pointer;transition:background .25s ease,color .25s ease,border-color .25s ease}
+.voice .mic[aria-pressed=true]{color:#fff;background:linear-gradient(145deg,#596b91,#3a4765);border-color:rgba(180,198,231,.24)}
+.voice .mic{animation:mic-glow 2.4s ease-in-out infinite}
+.voice .mic[aria-pressed=true]{animation:none}
+.voice .head.speaking{animation:speaker-glow 1.7s ease-in-out infinite}
+@keyframes voice-wave{0%{transform:scaleY(.18);opacity:.45}24%{transform:scaleY(.72);opacity:.9}54%{transform:scaleY(.34);opacity:.65}78%{transform:scaleY(1);opacity:1}100%{transform:scaleY(.48);opacity:.72}}
+@keyframes wave-drift{from{transform:translateX(-2px)}to{transform:translateX(2px)}}
+@keyframes mic-glow{0%,100%{box-shadow:0 0 0 0 rgba(110,168,255,0),0 0 0 1px rgba(110,168,255,.18)}50%{box-shadow:0 0 0 8px rgba(110,168,255,.04),0 0 24px rgba(110,168,255,.2)}}
+@keyframes speaker-glow{0%,100%{box-shadow:0 0 0 1px var(--blue),0 0 10px rgba(110,168,255,.2)}50%{box-shadow:0 0 0 2px var(--blue),0 0 24px rgba(110,168,255,.54)}}
+.theme-toggle{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:39px;padding:0 12px;
+  border:1px solid rgba(151,174,230,.17);border-radius:8px;background:rgba(255,255,255,.035);
+  color:#c7d2ef;font-size:12px;font-weight:600;transition:background .2s,border-color .2s,transform .2s;
+}
+.theme-toggle:hover{transform:translateY(-1px);border-color:rgba(151,174,230,.35);background:rgba(255,255,255,.08)}
+.theme-toggle svg{width:15px;height:15px}
+.cursor-orb{
+  position:fixed;top:0;left:0;z-index:9998;width:27px;height:27px;border:1px solid rgba(138,170,255,.65);
+  border-radius:50%;pointer-events:none;opacity:0;transform:translate(-50%,-50%);
+  transition:width .18s ease,height .18s ease,opacity .2s ease,background .2s ease;
+}
+.cursor-orb.visible{opacity:1}
+.cursor-orb.hovering{width:43px;height:43px;background:rgba(116,151,255,.08)}
+.version-filters{display:flex;justify-content:center;gap:8px;margin-top:30px}
+.version-filters button{padding:9px 16px;border:1px solid var(--line);border-radius:8px;color:var(--fg-soft);font-size:13px;transition:all .25s var(--ease)}
+.version-filters button:hover,.version-filters button[aria-pressed=true]{color:#fff;border-color:rgba(110,168,255,.38);background:rgba(110,168,255,.1)}
+.selected-version{min-height:22px;margin-top:16px;color:var(--fg-muted);font-size:12px;text-align:center}
+.vlist{
+  padding:18px;border:1px solid var(--line);border-radius:14px;
+  background:rgba(11,16,32,.72);box-shadow:0 12px 36px rgba(0,0,0,.1);
+}
+.vlist>button{min-width:62px;padding:10px 13px;border-radius:8px}
+html[data-theme=light]{
+  --bg:#f4f6fb;--surface:#fff;--fg:#17213a;--fg-soft:#52617c;--fg-muted:#687895;--line:rgba(39,58,101,.14);
+}
+html[data-theme=light] body{background:radial-gradient(ellipse at 74% 8%,rgba(92,126,220,.13),transparent 38%),var(--bg);color:var(--fg)}
+html[data-theme=light] .header{background:rgba(248,250,255,.86)}
+html[data-theme=light] .brand img{filter:none;mix-blend-mode:normal}
+html[data-theme=light] .nav-links a,html[data-theme=light] .heading p,html[data-theme=light] .hero .desc{color:#52617c}
+html[data-theme=light] .hero h1 span{background:linear-gradient(180deg,#17213a,#52617c);-webkit-background-clip:text;background-clip:text;color:transparent}
+html[data-theme=light] .hero .rotate .word{background:linear-gradient(90deg,#3265db,#667eea 50%,#8c65c9);-webkit-background-clip:text;background-clip:text}
+html[data-theme=light] .fps-meter,html[data-theme=light] .card,html[data-theme=light] .highlight-card,html[data-theme=light] .console,html[data-theme=light] .compare{background:rgba(255,255,255,.95);border-color:rgba(39,58,101,.15)}
+html[data-theme=light] .fps-number,html[data-theme=light] .card h3,html[data-theme=light] .highlight-card h3,html[data-theme=light] .console-head{color:#17213a}
+html[data-theme=light] .speedo-track{stroke:rgba(39,58,101,.13)}
+html[data-theme=light] .speedo-needle,html[data-theme=light] .speedo-hub{stroke:#24395e;fill:#24395e}
+html[data-theme=light] .facts strong,html[data-theme=light] .facts .platform>span,html[data-theme=light] .caption strong,html[data-theme=light] .setup dd{color:#25334f}
+html[data-theme=light] .facts>div>span,html[data-theme=light] .platform div,html[data-theme=light] .caption,html[data-theme=light] .card p,html[data-theme=light] .highlight-card p,html[data-theme=light] .voice .desc,html[data-theme=light] .faq-answer,html[data-theme=light] .footer-brand p,html[data-theme=light] .footer-links a{color:#52617c}
+html[data-theme=light] .tablist,html[data-theme=light] .switch,html[data-theme=light] .vlist,html[data-theme=light] .vlist>button{background:#fff;border-color:var(--line)}
+html[data-theme=light] .vlist>button,html[data-theme=light] .faq-item summary,html[data-theme=light] .footer-links strong{color:#344462}
+html[data-theme=light] .footer,html[data-theme=light] .footer-bottom{border-color:var(--line);color:#687895}
+html[data-theme=light] .btn-secondary{color:#273652;background:rgba(255,255,255,.75);border-color:rgba(39,58,101,.2)}
+html[data-theme=light] .brand-light{color:#4269c9}
+html[data-theme=light] .theme-toggle{color:#344462;background:#fff;border-color:var(--line)}
+html[data-theme=light] .setup dt,html[data-theme=light] .row,html[data-theme=light] .metric-head,html[data-theme=light] .row strong{color:#52617c}
+html[data-theme=light] .vlist{background:rgba(255,255,255,.88);border-color:rgba(39,58,101,.12);box-shadow:0 12px 36px rgba(35,55,100,.07)}
+html[data-theme=light] .vlist>button{color:#344462;background:#fff;border-color:rgba(39,58,101,.13)}
+html[data-theme=light] .vlist>button:hover,html[data-theme=light] .vlist>button[aria-pressed=true]{color:#315fc2;background:#eef3ff;border-color:rgba(66,105,201,.34)}
+html[data-theme=light] .vlist .new{color:#315fc2;background:#f4f7ff;border-color:rgba(66,105,201,.2)}
+html[data-theme=light] .version-filters button{color:#52617c;border-color:var(--line)}
+html[data-theme=light] .version-filters button:hover,html[data-theme=light] .version-filters button[aria-pressed=true]{color:#315fc2;background:#eef3ff;border-color:rgba(66,105,201,.3)}
+html[data-theme=light] .console{background:linear-gradient(155deg,#fff,#f3f6fc 82%);border-color:rgba(39,58,101,.13);box-shadow:0 20px 50px rgba(35,55,100,.08)}
+html[data-theme=light] .console-head{color:#315fc2}
+html[data-theme=light] .console-foot{color:#63728d;border-color:rgba(39,58,101,.1)}
+html[data-theme=light] .mic{color:#4269c9;background:radial-gradient(circle at 50% 0,rgba(66,105,201,.1),transparent 80%),#f4f7ff;border-color:rgba(66,105,201,.2)}
+html[data-theme=light] .wave span{background:linear-gradient(180deg,#7c9ee9 0%,#4f78d1 55%,#355eb0 100%)}
+html[data-theme=light] .wave.muted span{background:linear-gradient(180deg,#a4b7df 0%,#8199cf 55%,#647eb8 100%)}
+@media(min-width:1024px) and (pointer:fine){.cursor-orb{display:block}}
+@media(max-width:1023px){.cursor-orb{display:none}.theme-toggle{min-height:36px;padding:0 9px}}
+@media(max-width:767px){.nav-actions{gap:7px}.nav-actions>.btn{padding-inline:11px}.nav-actions .theme-toggle{width:36px;padding:0}.nav-actions .theme-toggle span{display:none}}
+.highlights{padding-top:120px}
+.highlight-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:35px}
+.highlight-card{
+  min-height:236px;padding:31px;border:1px solid rgba(132,158,218,.12);
+  border-radius:16px;background:linear-gradient(145deg,rgba(17,26,45,.88),rgba(9,14,28,.78));
+  transition:transform .35s var(--ease),border-color .35s var(--ease),box-shadow .35s var(--ease);
+}
+.highlight-card:hover{transform:translateY(-6px);border-color:rgba(111,151,255,.35);box-shadow:0 20px 46px rgba(0,0,0,.24)}
+.highlight-icon{
+  display:grid;place-items:center;width:49px;height:49px;margin-bottom:25px;
+  border:1px solid rgba(124,158,255,.2);border-radius:13px;
+  background:rgba(81,124,236,.09);color:#f0a94d;
+}
+.highlight-icon svg{width:28px;height:28px}
+.highlight-card h3{font-size:21px;font-weight:550;letter-spacing:-.55px}
+.highlight-card p{max-width:380px;margin-top:13px;color:var(--fg-soft);font-size:14px;line-height:1.75}
+@media(max-width:900px){.highlight-grid{grid-template-columns:1fr;gap:14px}.highlight-card{min-height:0}}
+@media(max-width:767px){.highlights{padding-top:78px}.highlight-card{padding:25px}}
+.card,.shot-frame,.console,.faq-item,.vlist>button,.closing{transition-timing-function:var(--ease)}
+.card{border-color:rgba(132,158,218,.12);background-color:#0b1020}
+.card:hover{border-color:rgba(111,151,255,.34);box-shadow:0 18px 45px rgba(0,0,0,.2)}
+.faq-item summary{transition:color .2s ease}
+:focus-visible{outline:2px solid #8eafff;outline-offset:4px}
+@media(min-width:1024px){
+  .reveal{opacity:1;transform:none}
+  .reveal-ready .reveal{
+    opacity:0;transform:translateY(24px);
+    transition:opacity .72s var(--ease),transform .72s var(--ease);
+  }
+  .reveal-ready .reveal.is-visible{opacity:1;transform:translateY(0)}
+  .reveal-ready .reveal[data-delay="1"]{transition-delay:90ms}
+  .reveal-ready .reveal[data-delay="2"]{transition-delay:160ms}
+  .reveal-ready .reveal[data-delay="3"]{transition-delay:230ms}
+}
+@media(max-width:767px){
+  .hero-visual{margin:24px 0 24px;padding-bottom:0}
+  .hero-frame{transform:none;animation:none}
+  .fps-meter{right:10px;bottom:-18px;width:min(258px,73%)}
+  .vlist{padding:12px;gap:8px}
+  .vlist>button{min-width:58px;padding:9px 10px;font-size:12px}
+  .signal{gap:10px}
+  .wave{flex:1 1 36px;min-width:0}
+  .head{flex-basis:42px;height:42px}
+  .mic{flex-basis:56px;height:56px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .reveal-ready .reveal{opacity:1;transform:none}
+}
 </style>
 </head>
 <body>
@@ -400,8 +588,13 @@ h2 span{color:#7d87a6}
       <a href="#features">Features</a>
       <a href="docs.html">Docs</a>
       <a href="status.html">Status</a>
+      <a href="discord.html">Community</a>
     </div>
     <div class="nav-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+        <span>Light</span>
+      </button>
       <button class="btn btn-primary btn-sm dl-trigger" type="button">
         Download
         <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -420,7 +613,7 @@ h2 span{color:#7d87a6}
       <span>Minecraft</span>
       <span class="rotate"><span class="word">launcher.</span></span>
     </h1>
-    <p class="desc">Sapphire Client delivers built-in peak performance and supports every version of Minecraft across Fabric, vanilla, and other coming soon every gameplay feature completely free.</p>
+    <p class="desc">Sapphire Client brings performance-focused mods, flexible profiles, and multiple Minecraft versions together in one free, easy-to-use launcher.</p>
     <div class="actions">
       <button class="btn btn-primary dl-trigger" type="button">
         <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -429,12 +622,30 @@ h2 span{color:#7d87a6}
         Download for Windows
       </button>
       <a class="btn btn-secondary" href="#preview">See screenshots</a>
+      <a class="btn btn-secondary btn-sm" href="discord.html">Discord</a>
     </div>
   </div>
   <div class="hero-visual">
     <button class="hero-frame" type="button" id="heroFrame">
       <img src="https://i.ibb.co/CsPCnBXM/Screenshot-2026-10-12-062457.png" alt="Sapphire Client launcher home screen">
     </button>
+    <aside class="fps-meter" role="meter" aria-label="Animated FPS speedometer, from zero to one thousand" aria-valuemin="0" aria-valuemax="1000" aria-valuenow="0">
+      <div class="speedo" aria-hidden="true">
+        <svg viewBox="0 0 220 120" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="speedoGradient" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0%" stop-color="#5578e8"/>
+              <stop offset="100%" stop-color="#8ab6ff"/>
+            </linearGradient>
+          </defs>
+          <path class="speedo-track" d="M22 104 A88 88 0 0 1 198 104"/>
+          <path class="speedo-progress" d="M22 104 A88 88 0 0 1 198 104"/>
+          <line class="speedo-needle" x1="110" y1="104" x2="110" y2="43"/>
+          <circle class="speedo-hub" cx="110" cy="104" r="4.5"/>
+        </svg>
+        <div class="fps-readout"><span class="fps-number" id="fpsNumber">0</span><span class="fps-unit">FPS</span></div>
+      </div>
+    </aside>
   </div>
 </section>
 
@@ -454,6 +665,37 @@ h2 span{color:#7d87a6}
   <div><strong>Free</strong><span>Every gameplay feature</span></div>
 </section>
 
+<!-- FEATURE HIGHLIGHTS -->
+<section class="highlights container" id="highlights">
+  <div class="heading">
+    <span class="eyebrow">Built for your setup</span>
+    <h2>Make every session yours.<br><span>Less setup. More Minecraft.</span></h2>
+  </div>
+  <div class="highlight-grid">
+    <article class="highlight-card">
+      <div class="highlight-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3"/><path d="M5.64 5.64l2.12 2.12"/><path d="M3 12h3"/><path d="M18 12h3"/><path d="M16.24 7.76l2.12-2.12"/><path d="M8.2 17.8a5.5 5.5 0 1 1 7.6 0c-.9.85-1.3 1.65-1.3 2.7h-5c0-1.05-.4-1.85-1.3-2.7Z"/><path d="M9.5 21h5"/></svg>
+      </div>
+      <h3>FPS boost</h3>
+      <p>Get smoother gameplay with built-in performance optimizations and carefully selected mods. Actual FPS depends on your hardware and settings.</p>
+    </article>
+    <article class="highlight-card">
+      <div class="highlight-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m16 4 5 3-3 5-2-1v9H8v-9l-2 1-3-5 5-3c1 1.3 2.3 2 4 2s3-.7 4-2Z"/><path d="M9 5c.5 1.3 1.5 2 3 2s2.5-.7 3-2"/></svg>
+      </div>
+      <h3>Skins &amp; capes</h3>
+      <p>Personalize your Minecraft look with skins and capes, and make your profile feel like your own.</p>
+    </article>
+    <article class="highlight-card">
+      <div class="highlight-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 2a2.5 2.5 0 0 0-5 0c0 .55.18 1.05.48 1.46H6a3 3 0 0 0-3 3v2.02c.4-.3.9-.48 1.46-.48a2.5 2.5 0 0 1 0 5c-.56 0-1.06-.18-1.46-.48V18a3 3 0 0 0 3 3h4.02c-.3-.4-.48-.9-.48-1.46a2.5 2.5 0 0 1 5 0c0 .56-.18 1.06-.48 1.46H18a3 3 0 0 0 3-3v-2.02c-.4.3-.9.48-1.46.48a2.5 2.5 0 0 1 0-5c.56 0 1.06.18 1.46.48V6.46a3 3 0 0 0-3-3h-2.02c.3-.41.48-.91.48-1.46Z"/></svg>
+      </div>
+      <h3>Add your own mods</h3>
+      <p>Bring your favorite Fabric mods and organize your setup in one place. Check each mod’s version and loader compatibility before installing.</p>
+    </article>
+  </div>
+</section>
+
 <!-- PREVIEW -->
 <section id="preview" class="container section-space">
   <div class="heading centered">
@@ -463,14 +705,14 @@ h2 span{color:#7d87a6}
   <div class="tour">
     <div class="tabs">
       <div class="tablist" role="tablist">
-        <button role="tab" aria-selected="true">The launcher</button>
-        <button role="tab" aria-selected="false" tabindex="-1">Built-in Modrinth</button>
-        <button role="tab" aria-selected="false" tabindex="-1">In game</button>
-        <button role="tab" aria-selected="false" tabindex="-1">Accounts</button>
+        <button id="preview-tab-0" role="tab" aria-controls="preview-panel" aria-selected="true">The launcher</button>
+        <button id="preview-tab-1" role="tab" aria-controls="preview-panel" aria-selected="false" tabindex="-1">Built-in Modrinth</button>
+        <button id="preview-tab-2" role="tab" aria-controls="preview-panel" aria-selected="false" tabindex="-1">In game</button>
+        <button id="preview-tab-3" role="tab" aria-controls="preview-panel" aria-selected="false" tabindex="-1">Accounts</button>
       </div>
     </div>
-    <div class="panel">
-      <div class="shot-frame">
+    <div class="panel" id="preview-panel" role="tabpanel" aria-labelledby="preview-tab-0" tabindex="0">
+      <div class="shot-frame compact">
         <img class="tab-img" data-tab="0" src="https://i.ibb.co/CsPCnBXM/Screenshot-2026-10-12-062457.png" alt="Launcher">
         <img class="tab-img" data-tab="1" src="https://i.ibb.co/MkRJsyr8/Screenshot-2026-10-12-062155.png" alt="Modrinth" style="display:none">
         <img class="tab-img" data-tab="2" src="https://lens.usercontent.google.com/banana?agsi=CmdnbG9iYWw6OjAwMDA1NWNmZWM3MDAyNmQ6MDAwMDAwZWI6MTo5MjRhMWRhMTk4ZDU1OWE2OjAwMDA1NWNmZWM3MDAyNmQ6MDAwMDAzMzY1NjEwMzM2ODowMDA2NWRhM2M1YTc1YTlmEAIYASIKaW1hZ2UvanBlZw==" alt="In game" style="display:none">
@@ -592,15 +834,15 @@ h2 span{color:#7d87a6}
     <div class="signal">
       <div class="head speaking"><img src="https://1fc60595-1fa0-4cbf-94ab-fd51860a846f-v5.prototype.alloy.app/images/88c52f65-2768-42c2-9b6f-844ecfc9809f.png" alt=""></div>
       <div class="wave"><span style="--h:16px"></span><span style="--h:28px"></span><span style="--h:42px"></span><span style="--h:25px"></span><span style="--h:61px"></span><span style="--h:83px"></span><span style="--h:49px"></span><span style="--h:102px"></span><span style="--h:76px"></span><span style="--h:47px"></span><span style="--h:68px"></span><span style="--h:32px"></span></div>
-      <div class="mic">
+      <button class="mic" id="voiceToggle" type="button" aria-pressed="false" aria-label="Mute voice animation">
         <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/>
         </svg>
-      </div>
+      </button>
       <div class="wave muted"><span style="--h:32px"></span><span style="--h:68px"></span><span style="--h:47px"></span><span style="--h:76px"></span><span style="--h:102px"></span><span style="--h:49px"></span><span style="--h:83px"></span><span style="--h:61px"></span><span style="--h:25px"></span><span style="--h:42px"></span><span style="--h:28px"></span><span style="--h:16px"></span></div>
       <div class="head listening"><img src="https://1fc60595-1fa0-4cbf-94ab-fd51860a846f-v5.prototype.alloy.app/images/d144a2b9-e468-4f3a-9f30-6c68d19009a5.png" alt=""></div>
     </div>
-    <div class="console-foot"><span>Built into Sapphire Client</span></div>
+    <div class="console-foot"><span id="voiceStatus">Voice activity · click the mic to mute</span></div>
   </div>
 </section>
 
@@ -610,12 +852,19 @@ h2 span{color:#7d87a6}
     <h2>All Minecraft versions.<br><span>Fabric and Vanilla.</span></h2>
     <p>Each version is built and tested on its own.</p>
   </div>
-  <div class="vlist">
-    <span>1.8.9</span><span>1.21</span><span>1.21.1</span><span>1.21.2</span><span>1.21.3</span>
-    <span>1.21.4</span><span>1.21.5</span><span>1.21.6</span><span>1.21.7</span><span>1.21.8</span>
-    <span>1.21.9</span><span>1.21.10</span><span>1.21.11</span>
-    <span>26</span><span>26.1</span><span>26.1.2</span> <span class="new">26.3<span>LATEST</span></span>
+  <div class="version-filters" role="group" aria-label="Filter Minecraft versions">
+    <button type="button" aria-pressed="true" data-filter="all">All</button>
+    <button type="button" aria-pressed="false" data-filter="legacy">1.8</button>
+    <button type="button" aria-pressed="false" data-filter="1.21">1.21</button>
+    <button type="button" aria-pressed="false" data-filter="26">26.x</button>
   </div>
+  <div class="vlist" aria-live="polite">
+    <button type="button" data-family="legacy" aria-pressed="false">1.8.9</button><button type="button" data-family="1.21" aria-pressed="false">1.21</button><button type="button" data-family="1.21" aria-pressed="false">1.21.1</button><button type="button" data-family="1.21" aria-pressed="false">1.21.2</button><button type="button" data-family="1.21" aria-pressed="false">1.21.3</button>
+    <button type="button" data-family="1.21" aria-pressed="false">1.21.4</button><button type="button" data-family="1.21" aria-pressed="false">1.21.5</button><button type="button" data-family="1.21" aria-pressed="false">1.21.6</button><button type="button" data-family="1.21" aria-pressed="false">1.21.7</button><button type="button" data-family="1.21" aria-pressed="false">1.21.8</button>
+    <button type="button" data-family="1.21" aria-pressed="false">1.21.9</button><button type="button" data-family="1.21" aria-pressed="false">1.21.10</button><button type="button" data-family="1.21" aria-pressed="false">1.21.11</button>
+    <button type="button" data-family="26" aria-pressed="false">26</button><button type="button" data-family="26" aria-pressed="false">26.1</button><button type="button" data-family="26" aria-pressed="false">26.1.2</button> <button type="button" class="new" data-family="26" aria-pressed="false">26.3<span>LATEST</span></button>
+  </div>
+  <p class="selected-version" id="selectedVersion" aria-live="polite">Choose a version to view it here.</p>
 </section>
 
 <!-- FAQ -->
@@ -642,7 +891,7 @@ h2 span{color:#7d87a6}
     </details>
     <details class="faq-item">
       <summary>Should we bring Sapphire Client to mobile? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></summary>
-      <div class="faq-answer">We would love to hear your thoughts! Share your feedback <a href="https://discord.gg/dw2za9ZYr" target="_blank" rel="noopener">Click Here</a></div>
+      <div class="faq-answer">We would love to hear your thoughts! Share your feedback <a href="discord.html">Click Here</a></div>
     </details>
     <details class="faq-item">
       <summary>Who makes Sapphire Client? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></summary>
@@ -673,14 +922,14 @@ h2 span{color:#7d87a6}
       </a>
       <p>A free Minecraft launcher and client.</p>
       <div class="social">
-        <a href="https://discord.gg/dw2za9ZYr" aria-label="Discord">
+        <a href="discord.html" aria-label="Discord community">
           <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.06.06 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
         </a>
       </div>
     </div>
     <div class="footer-links">
       <div><strong>Explore</strong><a href="#features">Features</a><a href="#" class="dl-trigger">Download</a></div>
-      <div><strong>Resources</strong><a href="docs.html">Documentation</a><a href="status.html">Service status</a><a href="https://discord.gg/dw2za9ZYr">Discord</a></div>
+      <div><strong>Resources</strong><a href="docs.html">Documentation</a><a href="status.html">Service status</a><a href="discord.html">Discord community</a><a href="discord.html">Join Discord</a></div>
       <div><strong>Sapphire Client</strong><a href="#">Privacy policy</a><a href="#">Terms of service</a><a href="#">Contact</a></div>
       <div><strong>Credits</strong><a href="#">StarlightSkins</a><a href="#">Visage</a><a href="#">Modrinth</a><a href="#">CmlLib</a></div>
     </div>
@@ -713,13 +962,9 @@ h2 span{color:#7d87a6}
       <h3 class="dl-title">Download <span>Sapphire Client</span></h3>
       <p class="dl-sub">Get the latest version for Windows. Free forever, no account needed.</p>
       <div class="dl-meta">
-        <div><strong>v1.2.0</strong><span>Version</span></div>
+        <div><strong>v1.2.2</strong><span>Version</span></div>
         <div><strong>~99 MB</strong><span>Size</span></div>
         <div><strong>Windows</strong><span>Platform</span></div>
-      </div>
-      <div class="dl-progress-wrap" id="dlProgressWrap">
-        <div class="dl-progress-label"><span>Downloading…</span><strong id="dlPercent">0%</strong></div>
-        <div class="dl-progress"><div class="dl-progress-bar" id="dlProgressBar"></div></div>
       </div>
       <div class="dl-actions">
         <button class="dl-btn dl-btn-ghost" id="dlCancel" type="button">Cancel</button>
@@ -727,7 +972,7 @@ h2 span{color:#7d87a6}
           <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/>
           </svg>
-          Confirm Download
+          Download now
         </button>
       </div>
     </div>
@@ -738,13 +983,13 @@ h2 span{color:#7d87a6}
           <path d="M20 6 9 17l-5-5"/>
         </svg>
       </div>
-      <h4>Download Started!</h4>
-      <p>Agar download automatically start nahi hua, to neeche file button par click karein.</p>
+      <h4>Your download is ready</h4>
+      <p>Your browser should start downloading Sapphire-Setup-1.2.2.exe. If it doesn’t, use the direct download link below.</p>
       <a class="dl-file" id="dlFallback" href="#" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/>
         </svg>
-        Sapphire-Setup-1.2.0.exe
+        Sapphire-Setup-1.2.2.exe
       </a>
       <div class="dl-actions">
         <button class="dl-btn dl-btn-ghost" id="dlDone" type="button">Close</button>
@@ -767,17 +1012,38 @@ var tabCaptions = [
   "<strong>Accounts.</strong> Add and switch between Minecraft accounts."
 ];
 var tabs = document.querySelectorAll('.tablist [role=tab]');
+function selectPreviewTab(index, moveFocus){
+  var tab = tabs[index];
+  if(!tab) return;
+  tabs.forEach(function(item, tabIndex){
+    var selected = tabIndex === index;
+    item.setAttribute('aria-selected', String(selected));
+    item.tabIndex = selected ? 0 : -1;
+  });
+  var panel = document.getElementById('preview-panel');
+  if(panel) panel.setAttribute('aria-labelledby', tab.id);
+  document.querySelectorAll('.tab-img').forEach(function(img, imageIndex){
+    img.style.display = imageIndex === index ? 'block' : 'none';
+  });
+  var shotFrame = document.querySelector('.shot-frame');
+  if(shotFrame) shotFrame.classList.toggle('compact', index === 0);
+  var capText = document.getElementById('captionText');
+  var capCount = document.getElementById('captionCount');
+  if(capText) capText.innerHTML = tabCaptions[index];
+  if(capCount) capCount.innerHTML = String(index + 1).padStart(2,'0') + '<span> / 04</span>';
+  if(moveFocus) tab.focus();
+}
 tabs.forEach(function(tab, index){
-  tab.addEventListener('click', function(){
-    tabs.forEach(function(t){ t.setAttribute('aria-selected','false'); });
-    tab.setAttribute('aria-selected','true');
-    document.querySelectorAll('.tab-img').forEach(function(img, i){
-      img.style.display = (i === index) ? 'block' : 'none';
-    });
-    var capText = document.getElementById('captionText');
-    var capCount = document.getElementById('captionCount');
-    if(capText) capText.innerHTML = tabCaptions[index];
-    if(capCount) capCount.innerHTML = String(index + 1).padStart(2,'0') + '<span> / 04</span>';
+  tab.addEventListener('click', function(){ selectPreviewTab(index, false); });
+  tab.addEventListener('keydown', function(event){
+    var next = index;
+    if(event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+    else if(event.key === 'ArrowLeft') next = (index + tabs.length - 1) % tabs.length;
+    else if(event.key === 'Home') next = 0;
+    else if(event.key === 'End') next = tabs.length - 1;
+    else return;
+    event.preventDefault();
+    selectPreviewTab(next, true);
   });
 });
 
@@ -823,6 +1089,177 @@ document.querySelectorAll('.faq-item').forEach(function(d){
   });
 });
 
+/* ============ VOICE PREVIEW CONTROL ============ */
+(function(){
+  var toggle = document.getElementById('voiceToggle');
+  var status = document.getElementById('voiceStatus');
+  var waves = document.querySelectorAll('.voice .wave');
+  var speaker = document.querySelector('.voice .head.speaking');
+  if(!toggle) return;
+  toggle.addEventListener('click', function(){
+    var muted = toggle.getAttribute('aria-pressed') !== 'true';
+    toggle.setAttribute('aria-pressed', String(muted));
+    toggle.setAttribute('aria-label', muted ? 'Resume voice animation' : 'Mute voice animation');
+    waves.forEach(function(wave){ wave.classList.toggle('is-muted', muted); });
+    if(speaker) speaker.classList.toggle('speaking', !muted);
+    if(status) status.textContent = muted ? 'Voice activity paused · click the mic to resume' : 'Voice activity · click the mic to mute';
+  });
+})();
+
+/* ============ REVEALS + FPS METER ============ */
+(function(){
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var revealItems = document.querySelectorAll('.facts > div, .heading, .tour, .card, .highlight-card, .voice > div, .vlist > button, .faq-head, .faq-item, .closing > *, .footer-top > *, .footer-bottom > *');
+  var fpsMeter = document.querySelector('.fps-meter');
+  var fpsNumber = document.getElementById('fpsNumber');
+  var fpsProgress = document.querySelector('.speedo-progress');
+  var fpsNeedle = document.querySelector('.speedo-needle');
+  var fpsTarget = 1000;
+  var fpsStarted = false;
+  var fpsVisible = true;
+  var fpsRun = 0;
+  var fpsFrame = 0;
+  var fpsTimer = 0;
+
+  function animateFps(){
+    if(fpsStarted || !fpsVisible || !fpsNumber || !fpsProgress || !fpsNeedle || !fpsMeter) return;
+    fpsStarted = true;
+    var run = ++fpsRun;
+    var duration = reduceMotion ? 0 : 10000;
+    var start = performance.now();
+
+    function tick(now){
+      if(run !== fpsRun || !fpsVisible) return;
+      var progress = duration ? Math.min((now - start) / duration, 1) : 1;
+      var eased = 1 - Math.pow(1 - progress, 2.4);
+      var value = Math.round(fpsTarget * eased);
+      fpsNumber.textContent = value.toLocaleString('en-US');
+      fpsProgress.style.strokeDashoffset = String(276.46 * (1 - value / fpsTarget));
+      fpsNeedle.style.transform = 'rotate(' + (-90 + 180 * value / fpsTarget) + 'deg)';
+      fpsMeter.setAttribute('aria-valuenow', String(value));
+      if(progress < 1){
+        fpsFrame = requestAnimationFrame(tick);
+      }else if(!reduceMotion){
+        fpsTimer = window.setTimeout(function(){
+          fpsStarted = false;
+          animateFps();
+        }, 0);
+      }
+    }
+    fpsFrame = requestAnimationFrame(tick);
+  }
+
+  if(!reduceMotion && 'IntersectionObserver' in window){
+    var revealObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+        }else{
+          entry.target.classList.remove('is-visible');
+        }
+      });
+    }, {threshold:0.08});
+    revealItems.forEach(function(item, index){
+      item.classList.add('reveal');
+      item.setAttribute('data-delay', String((index % 3) + 1));
+      revealObserver.observe(item);
+    });
+    document.body.classList.add('reveal-ready');
+  }
+
+  animateFps();
+})();
+
+/* ============ VERSION FILTERS ============ */
+(function(){
+  var filters = document.querySelectorAll('.version-filters button');
+  var versions = document.querySelectorAll('.vlist [data-family]');
+  var selectedLabel = document.getElementById('selectedVersion');
+  var selectedVersion = '';
+  filters.forEach(function(filter){
+    filter.addEventListener('click', function(){
+      var selected = filter.getAttribute('data-filter');
+      filters.forEach(function(button){
+        button.setAttribute('aria-pressed', String(button === filter));
+      });
+      versions.forEach(function(version){
+        version.hidden = selected !== 'all' && version.getAttribute('data-family') !== selected;
+      });
+      if(selectedVersion){
+        var selectedButton = Array.from(versions).find(function(version){ return version.textContent.trim().indexOf(selectedVersion) === 0; });
+        if(selectedButton && selectedButton.hidden){
+          selectedVersion = '';
+          versions.forEach(function(version){ version.setAttribute('aria-pressed','false'); });
+          if(selectedLabel) selectedLabel.textContent = 'Choose a version to view it here.';
+        }
+      }
+    });
+  });
+  versions.forEach(function(version){
+    version.addEventListener('click', function(){
+      selectedVersion = version.childNodes[0].textContent.trim();
+      versions.forEach(function(button){
+        button.setAttribute('aria-pressed', String(button === version));
+      });
+      if(selectedLabel) selectedLabel.textContent = 'Minecraft ' + selectedVersion + ' selected.';
+    });
+  });
+})();
+
+/* ============ SHARED THEME + POINTER MOTION ============ */
+(function(){
+  var root = document.documentElement;
+  var buttons = document.querySelectorAll('[data-theme-toggle]');
+  var theme = 'dark';
+  try{
+    theme = localStorage.getItem('sapphire-theme') === 'dark' ? 'dark' : 'light';
+  }catch(error){
+    console.warn('Theme preference could not be read.', error);
+  }
+
+  function applyTheme(nextTheme, persist){
+    theme = nextTheme === 'light' ? 'light' : 'dark';
+    root.setAttribute('data-theme', theme);
+    buttons.forEach(function(button){
+      var light = theme === 'light';
+      button.setAttribute('aria-label', light ? 'Switch to dark theme' : 'Switch to light theme');
+      button.setAttribute('aria-pressed', String(light));
+      var label = button.querySelector('span');
+      if(label) label.textContent = light ? 'Dark' : 'Light';
+    });
+    if(persist){
+      try{
+        localStorage.setItem('sapphire-theme', theme);
+      }catch(error){
+        console.warn('Theme preference could not be saved.', error);
+      }
+    }
+  }
+  applyTheme(theme, false);
+  buttons.forEach(function(button){
+    button.addEventListener('click', function(){ applyTheme(theme === 'light' ? 'dark' : 'light', true); });
+  });
+  window.addEventListener('storage', function(event){
+    if(event.key === 'sapphire-theme') applyTheme(event.newValue, false);
+  });
+
+  if(window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    var orb = document.createElement('div');
+    orb.className = 'cursor-orb';
+    orb.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(orb);
+    document.addEventListener('pointermove', function(event){
+      orb.style.left = event.clientX + 'px';
+      orb.style.top = event.clientY + 'px';
+      orb.classList.add('visible');
+    });
+    document.addEventListener('pointerover', function(event){
+      orb.classList.toggle('hovering', !!event.target.closest('a,button,input,[role=tab],summary'));
+    });
+    document.addEventListener('pointerleave', function(){ orb.classList.remove('visible'); });
+  }
+})();
+
 /* ============ DOWNLOAD MODAL ============ */
 (function(){
   var overlay   = document.getElementById('dlOverlay');
@@ -832,9 +1269,6 @@ document.querySelectorAll('.faq-item').forEach(function(d){
   var doneBtn   = document.getElementById('dlDone');
   var mainBox   = document.getElementById('dlMain');
   var successBox= document.getElementById('dlSuccess');
-  var progressWrap = document.getElementById('dlProgressWrap');
-  var progressBar  = document.getElementById('dlProgressBar');
-  var percentEl    = document.getElementById('dlPercent');
   var fallback     = document.getElementById('dlFallback');
 
   function openModal(){
@@ -842,9 +1276,6 @@ document.querySelectorAll('.faq-item').forEach(function(d){
     document.body.style.overflow = 'hidden';
     mainBox.classList.remove('hide');
     successBox.classList.remove('show');
-    progressWrap.classList.remove('active');
-    progressBar.style.width = '0%';
-    percentEl.textContent = '0%';
   }
   function closeModal(){
     overlay.classList.remove('open');
@@ -868,18 +1299,12 @@ document.querySelectorAll('.faq-item').forEach(function(d){
     if(e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
   });
 
-  /* ===== DIRECT DOWNLOAD — Mediafire link, NO redirect =====
-     Yeh function seedha Mediafire ke direct download URL ko hit karta hai.
-     `download` attribute lagane se browser file ko download karta hai,
-     aur cross-origin hone ke bawajood redirect nahi hota. */
   function triggerDownload(){
-    // Set fallback link
     if(fallback) fallback.href = MEDIAFIRE_URL;
 
-    // Method 1: Direct anchor click with download attribute
     var a = document.createElement('a');
     a.href = MEDIAFIRE_URL;
-    a.download = "Sapphire-Setup-1.2.0.exe";
+    a.download = "Sapphire-Setup-1.2.2.exe";
     a.style.display = 'none';
     document.body.appendChild(a);
     a.click();
@@ -889,22 +1314,9 @@ document.querySelectorAll('.faq-item').forEach(function(d){
   }
 
   confirmBtn.addEventListener('click', function(){
-    progressWrap.classList.add('active');
-    var p = 0;
-    var iv = setInterval(function(){
-      p += Math.random() * 18;
-      if(p >= 100){ p = 100; clearInterval(iv); }
-      progressBar.style.width = p + '%';
-      percentEl.textContent = Math.floor(p) + '%';
-      if(p === 100){
-        clearInterval(iv);
-        setTimeout(function(){
-          mainBox.classList.add('hide');
-          successBox.classList.add('show');
-          triggerDownload();
-        }, 250);
-      }
-    }, 150);
+    triggerDownload();
+    mainBox.classList.add('hide');
+    successBox.classList.add('show');
   });
 })();
 </script>
